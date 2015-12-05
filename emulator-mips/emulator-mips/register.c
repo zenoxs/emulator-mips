@@ -7,3 +7,5 @@
 //
 
 #include "register.h"
+
+int registerToInt(char* name);
