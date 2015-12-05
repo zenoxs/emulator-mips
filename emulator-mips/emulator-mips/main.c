@@ -19,6 +19,8 @@ int main(int argc, char * argv[]) {
 				//Lecture instruction
 				printf("emul-mips(interactif)>");
 				scanf_s("%s", &instruction, SIZE);
+                
+                instructionToHex(instruction);
 			}
 
 			break;
