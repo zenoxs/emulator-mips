@@ -1,4 +1,4 @@
-#include "emulateur.h"
+#include "emulator.h"
 
 #define SIZE 50
 
