@@ -5,7 +5,8 @@
 
 int main(int argc, char * argv[]) {
     
-	/*char instruction[SIZE] = "";
+	char instruction[SIZE] = "";
+
 	switch (argc) {
 		case 1: //Mode interactif
 
@@ -54,8 +55,6 @@ int main(int argc, char * argv[]) {
 
 			}
 			break;
-	}*/
-	uint32_t a= registerToInt("28");
-	printf("%d\n", a);
+	}
 	return 0;
 }
