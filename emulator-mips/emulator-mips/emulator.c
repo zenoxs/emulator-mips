@@ -1,21 +1,29 @@
 #include "emulator.h"
 
-char* instructionToHex(char* instruction) {
-	char* hexInstruction = ""; // Instruction en hexadecimal
-	/*uint32_t intInstruction = 0;
+char* instructionToHex(char instruction[]) {
+    instruction = "ADD $2, $3, $3";
+    
+    char instructionA[100];
+    strcpy(instructionA, instruction);
 
-	char* operation = strtok_s(instruction, " ", 4); // string de l'opération
+    char* hexInstruction = malloc(sizeof(char)*11); // Instruction en hexadecimal
+    
+	uint32_t intInstruction = 0;
+
+    char *saveptr;
+    char* operation;
+    operation = strtok_r(instructionA, " ", &saveptr); // string de l'opÃ©ration
 
 	if (strcmp(operation, "ADD") == 0) { // Instruction ADD
 		intInstruction = 32;
 
-		uint32_t intRegister = registerToInt(strtok(NULL, ',')); // Numéro du registre
+		uint32_t intRegister = registerToInt(strtok_r(NULL, ",", &saveptr)); // NumÃˆro du registre
 		intInstruction |= (intRegister << 6);
 
-		intRegister = registerToInt(strtok(NULL, ',')); // Numéro du registre
+		intRegister = registerToInt(strtok_r(NULL, ",", &saveptr)); // NumÃˆro du registre
 		intInstruction |= (intRegister << (5+6));
 
-		intRegister = registerToInt(strtok(NULL, ',')); // Numéro du registre
+		intRegister = registerToInt(strtok_r(NULL, ",", &saveptr)); // NumÃˆro du registre
 		intInstruction |= (intRegister << (2*5 + 6));
 	}
 

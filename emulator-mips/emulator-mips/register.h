@@ -22,6 +22,7 @@ typedef Register* Registers;
 
 void displayRegister(Registers R);
 void initRegisters(Registers R);
+uint32_t registerToInt(char* name);
 
 uint32_t registerToInt(char* name);
 #endif /* register_h */
