@@ -9,6 +9,11 @@
 #ifndef register_h
 #define register_h
 
+#if defined(_WIN32) || defined(_WIN64)
+# define strtok_r strtok_s
+#endif
+
+
 #include <stdio.h>
 #include "memory.h"
 
