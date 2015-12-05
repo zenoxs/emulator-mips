@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdint.h>
 
+
 void displayProgHex(FILE* file);
 void displayInstructionHex(char* instruction);
 char* readInstructionFromFile(FILE* file, int* ligne);
