@@ -1,6 +1,10 @@
 #ifndef emulator_h
 #define emulator_h
 
+#if defined(_WIN32) || defined(_WIN64)
+# define strtok_r strtok_s
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
