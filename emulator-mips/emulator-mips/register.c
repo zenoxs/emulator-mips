@@ -8,4 +8,4 @@
 
 #include "register.h"
 
-int registerToInt(char* name);
+uint32_t registerToInt(char* name);

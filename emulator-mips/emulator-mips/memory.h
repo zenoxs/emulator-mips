@@ -10,6 +10,7 @@
 #define memory_h
 
 #include <stdio.h>
+#include <stdint.h>
 
 typedef struct {
     uint32_t address;
