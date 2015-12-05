@@ -1,11 +1,10 @@
 #include "emulator.h"
 
 char* instructionToHex(char* instruction) {
-	int i;
 	char* hexInstruction = ""; // Instruction en hexadecimal
-	uint32_t intInstruction = 0;
+	/*uint32_t intInstruction = 0;
 
-	char* operation = strtok(instruction, ' '); // string de l'opération
+	char* operation = strtok_s(instruction, " ", 4); // string de l'opération
 
 	if (strcmp(operation, "ADD") == 0) { // Instruction ADD
 		intInstruction = 32;
@@ -20,7 +19,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (2*5 + 6));
 	}
 
-	sprintf(hexInstruction, "0x%X", intInstruction);
+	sprintf(hexInstruction, "0x%X", intInstruction);*/
 
 	return hexInstruction;
 }
