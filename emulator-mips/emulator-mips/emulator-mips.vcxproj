@@ -19,11 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Documents\Visual Studio 2015\Projects\Projet CS\Projet CS\emulateur.c" />
-    <ClCompile Include="..\..\..\..\..\Documents\Visual Studio 2015\Projects\Projet CS\Projet CS\main.cpp" />
+    <ClInclude Include="emulator.h" />
+    <ClInclude Include="memory.h" />
+    <ClInclude Include="register.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\Documents\Visual Studio 2015\Projects\Projet CS\Projet CS\emulateur.h" />
+    <ClCompile Include="emulator.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="memory.c" />
+    <ClCompile Include="register.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D6A1BF5-311B-47D8-9BFE-5F7BA18EF5B5}</ProjectGuid>
