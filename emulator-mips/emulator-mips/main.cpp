@@ -1,13 +1,15 @@
 #include "emulateur.h"
 
+#define SIZE 50
+
 int main(int argc, char * argv[]) {
-	char instruction[50] = "";
+	char instruction[SIZE] = "";
 	switch (argc) {
 		case 1: //Mode interactif
 
 			//Lecture instruction
 			printf("emul-mips(interactif)>");
-			scanf("%s", &instruction);
+			scanf_s("%s", &instruction, SIZE);
 
 			while ((strcmp(instruction, "exit") != 0) || (strcmp(instruction, "EXIT") != 0)) {
 				//Affichage instruction hexadecimale
@@ -16,7 +18,7 @@ int main(int argc, char * argv[]) {
 
 				//Lecture instruction
 				printf("emul-mips(interactif)>");
-				scanf("%s", &instruction);
+				scanf_s("%s", &instruction, SIZE);
 			}
 
 			break;
