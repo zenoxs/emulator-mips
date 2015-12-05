@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E67A23A31C1328240044C00D /* emulateur.c in Sources */ = {isa = PBXBuildFile; fileRef = E67A23A01C1328240044C00D /* emulateur.c */; };
-		E67A23A41C1328240044C00D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E67A23A21C1328240044C00D /* main.cpp */; };
+		E67A23A31C1328240044C00D /* emulator.c in Sources */ = {isa = PBXBuildFile; fileRef = E67A23A01C1328240044C00D /* emulator.c */; };
+		E67A23A41C1328240044C00D /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = E67A23A21C1328240044C00D /* main.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,9 +25,9 @@
 
 /* Begin PBXFileReference section */
 		E67A23961C13276B0044C00D /* emulator-mips */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "emulator-mips"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E67A23A01C1328240044C00D /* emulateur.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = emulateur.c; sourceTree = "<group>"; };
-		E67A23A11C1328240044C00D /* emulateur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = emulateur.h; sourceTree = "<group>"; };
-		E67A23A21C1328240044C00D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		E67A23A01C1328240044C00D /* emulator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = emulator.c; sourceTree = "<group>"; };
+		E67A23A11C1328240044C00D /* emulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = emulator.h; sourceTree = "<group>"; };
+		E67A23A21C1328240044C00D /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +60,9 @@
 		E67A23981C13276B0044C00D /* emulator-mips */ = {
 			isa = PBXGroup;
 			children = (
-				E67A23A01C1328240044C00D /* emulateur.c */,
-				E67A23A11C1328240044C00D /* emulateur.h */,
-				E67A23A21C1328240044C00D /* main.cpp */,
+				E67A23A01C1328240044C00D /* emulator.c */,
+				E67A23A11C1328240044C00D /* emulator.h */,
+				E67A23A21C1328240044C00D /* main.c */,
 			);
 			path = "emulator-mips";
 			sourceTree = "<group>";
@@ -123,8 +123,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E67A23A41C1328240044C00D /* main.cpp in Sources */,
-				E67A23A31C1328240044C00D /* emulateur.c in Sources */,
+				E67A23A41C1328240044C00D /* main.c in Sources */,
+				E67A23A31C1328240044C00D /* emulator.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
