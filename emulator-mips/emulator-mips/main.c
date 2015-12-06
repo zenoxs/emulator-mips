@@ -1,5 +1,4 @@
 #include "emulator.h"
-#include "register.h"
 
 #define SIZE 50
 
