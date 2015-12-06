@@ -10,7 +10,8 @@ char* instructionToHex(char* instruction) {
 	operation = strbreak(&instruction, ' ');
 
 	if (strcmp(operation, "ADD") == 0) { // Instruction ADD
-		intInstruction = 32;
+        
+		intInstruction = 32; // 100000 bits
 
 		intRegister = registerToInt(strbreak(&instruction, ','));
 		intInstruction |= (intRegister << 11);
@@ -24,7 +25,25 @@ char* instructionToHex(char* instruction) {
 
 		intRegister = registerToInt(instruction);
 		intInstruction |= (intRegister << (5 + 11));
-	}
+        
+    }else if (strcmp(operation, "ADDI") == 0) { // Instruction ADDI
+        
+        intInstruction = (8 << (2*5 + 16));// 001000 bits
+        
+        intRegister = registerToInt(strbreak(&instruction, ','));
+        intInstruction |= (intRegister << (16)); // rt
+        
+        strbreak(&instruction, ' ');
+        
+        intRegister = registerToInt(strbreak(&instruction, ',')); // rs
+        intInstruction |= (intRegister << (5 + 16));
+        
+        strbreak(&instruction, ' ');
+        
+        intRegister = registerToInt(instruction); // Immediate
+        intInstruction |= intRegister;
+    }
+
 
 	sprintf(hexInstruction, "0x%08X", intInstruction);
 

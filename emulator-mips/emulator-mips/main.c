@@ -11,7 +11,7 @@ int main(int argc, char * argv[]) {
 
 			//Lecture instruction
 			printf("emul-mips(interactif)>");
-			scanf("%s", &instruction);
+            fgets (&instruction, SIZE, stdin);
 
 			while ((strcmp(instruction, "exit") != 0) || (strcmp(instruction, "EXIT") != 0)) {
 				//Affichage instruction hexadecimale
@@ -20,7 +20,7 @@ int main(int argc, char * argv[]) {
 
 				//Lecture instruction
 				printf("emul-mips(interactif)>");
-				scanf("%s", &instruction);
+                fgets (&instruction, SIZE, stdin);
                 
                 instructionToHex(instruction);
 			}
