@@ -28,7 +28,7 @@ uint32_t registerToInt(char* name){
 	uint32_t result = 0;
 	char* noRegister;
 
-	noRegister = name;
+	noRegister = &name[1]; // Enleve le $ de la chaine name.
 
 	if (strcmp(noRegister, "zero") == 0) {
 		result = 0;
