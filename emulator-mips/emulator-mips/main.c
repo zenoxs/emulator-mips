@@ -1,5 +1,4 @@
 #include "emulator.h"
-#include "register.h"
 
 #define SIZE 50
 
@@ -14,16 +13,14 @@ int main(int argc, char * argv[]) {
 			printf("emul-mips(interactif)>");
             fgets (&instruction, SIZE, stdin);
 
-			while ((strcmp(instruction, "exit") != 0) || (strcmp(instruction, "EXIT") != 0)) {
+			while ((strcmp(instruction, "exit\n") != 0) && (strcmp(instruction, "EXIT\n") != 0)) {
 				//Affichage instruction hexadecimale
-
+				printf("%s\n", instructionToHex(instruction));
 				//Execution instruction
 
 				//Lecture instruction
 				printf("emul-mips(interactif)>");
                 fgets (&instruction, SIZE, stdin);
-                
-                instructionToHex(instruction);
 			}
 
 			break;

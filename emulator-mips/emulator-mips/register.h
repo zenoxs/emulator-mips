@@ -28,5 +28,11 @@ typedef Register* Registers;
 void displayRegister(Registers R);
 void initRegisters(Registers R);
 uint32_t registerToInt(char* name);
+
+/* 
+strbreak: Divise une chaine de caractere en 2 sous-chaines
+Parametres: 
+	- s: 
+*/
 char* strbreak(char** s, char delimit);
 #endif /* register_h */
