@@ -195,7 +195,7 @@ char* instructionToHex(char* instruction) {
 	}
 	else if (strcmp(operation, "MULT") == 0) { // Instruction ADD
 
-		intInstruction = 011000; // 011000 bits
+		intInstruction = 0b011000; // 011000 bits
 
 		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
 		intInstruction |= (intRegister << (5 + 10 + 6));
@@ -212,7 +212,7 @@ char* instructionToHex(char* instruction) {
 	}
 	else if (strcmp(operation, "OR") == 0) { // Instruction ADD
 
-		intInstruction = 100101; // 100101 bits
+		intInstruction = 0b100101; // 100101 bits
 
 		intRegister = registerToInt(strbreak(&instruction, ',')); // rd
 		intInstruction |= (intRegister << (5 + 6));
@@ -221,6 +221,134 @@ char* instructionToHex(char* instruction) {
 
 		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
 		intInstruction |= (intRegister << (3*5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(instruction); // rt
+		intInstruction |= (intRegister << (2 * 5 + 6));
+
+	}
+	else if (strcmp(operation, "ROTR") == 0) { // Instruction ADD
+
+		intInstruction = 0b000010; // 000010 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rd
+		intInstruction |= (intRegister << (5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rt
+		intInstruction |= (intRegister << (2 * 5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(instruction); // sa
+		intInstruction |= (intRegister << 6);
+		intInstruction |= 1 << (3 * 5 + 6);
+
+	}
+	else if (strcmp(operation, "SLL") == 0) { // Instruction ADD
+
+		intInstruction = 0b000000; // 000000 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rd
+		intInstruction |= (intRegister << (5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rt
+		intInstruction |= (intRegister << (2 * 5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(instruction); // sa
+		intInstruction |= (intRegister << 6);
+
+	}
+	else if (strcmp(operation, "SLT") == 0) { // Instruction ADD
+
+		intInstruction = 0b101010; // 101010 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rd
+		intInstruction |= (intRegister << (5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
+		intInstruction |= (intRegister << (3 * 5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(instruction); // rt
+		intInstruction |= (intRegister << (2*5 + 6));
+
+	}
+	else if (strcmp(operation, "SRL") == 0) { // Instruction ADD
+
+		intInstruction = 0b000010; // 000010 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rd
+		intInstruction |= (intRegister << (5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rt
+		intInstruction |= (intRegister << (2 * 5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(instruction); // sa
+		intInstruction |= (intRegister << 6);
+		intInstruction |= 1 << (3*5 + 6);
+	}
+	else if (strcmp(operation, "SUB") == 0) { // Instruction ADD
+
+		intInstruction = 0b100010; // 100010 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rd
+		intInstruction |= (intRegister << (5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
+		intInstruction |= (intRegister << (3 * 5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(instruction); // rt
+		intInstruction |= (intRegister << (2 * 5 + 6));
+	}
+	else if (strcmp(operation, "SW") == 0) { // Instruction ADD
+
+		intInstruction = 0b101011 << (2 * 5 + 16); // 101011 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rt
+		intInstruction |= (intRegister << 16);
+
+		strbreak(&instruction, ' ');
+
+		intInstruction |= atoi(strbreak(&instruction, '(')); // offset
+
+		instruction = strbreak(instruction, ')');
+
+		intInstruction |= atoi(instruction) << (5 + 16); // base
+	}
+	else if (strcmp(operation, "SYSCALL") == 0) { // Instruction ADD
+
+		intInstruction = 0b001100; // 001100 bits
+		//...
+	}
+	else if (strcmp(operation, "XOR") == 0) { // Instruction ADD
+
+		intInstruction = 0b100110; // 100110 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rd
+		intInstruction |= (intRegister << (5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
+		intInstruction |= (intRegister << (3 * 5 + 6));
 
 		strbreak(&instruction, ' ');
 
