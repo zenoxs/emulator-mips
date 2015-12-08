@@ -22,7 +22,7 @@ int main(int argc, char * argv[]) {
 
 				//Lecture instruction
 				printf("emul-mips(interactif)>");
-                fgets (&instruction, SIZE, stdin);
+                fgets (instruction, SIZE, stdin);
 			}
 
 			break;

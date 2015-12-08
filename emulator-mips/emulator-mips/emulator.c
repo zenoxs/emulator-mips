@@ -173,7 +173,7 @@ char* instructionToHex(char* instruction) {
 
 		intInstruction |= atoi(strbreak(&instruction, '(')); // offset
 
-		instruction = strbreak(instruction, ')');
+		instruction = strbreak(&instruction, ')');
 
 		intInstruction |= atoi(instruction) << (5 + 16); // base
 
@@ -299,7 +299,6 @@ char* instructionToHex(char* instruction) {
 
 		intRegister = registerToInt(instruction); // sa
 		intInstruction |= (intRegister << 6);
-		intInstruction |= 1 << (3*5 + 6);
 	}
 	else if (strcmp(operation, "SUB") == 0) { // Instruction ADD
 
@@ -329,7 +328,7 @@ char* instructionToHex(char* instruction) {
 
 		intInstruction |= atoi(strbreak(&instruction, '(')); // offset
 
-		instruction = strbreak(instruction, ')');
+		instruction = strbreak(&instruction, ')');
 
 		intInstruction |= atoi(instruction) << (5 + 16); // base
 	}
