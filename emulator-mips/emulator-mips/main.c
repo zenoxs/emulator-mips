@@ -4,18 +4,20 @@
 
 int main(int argc, char * argv[]) {
     
-	char instruction[SIZE] = "";
+	char* instruction = malloc(SIZE * sizeof(char));
 
 	switch (argc) {
 		case 1: //Mode interactif
 
 			//Lecture instruction
 			printf("emul-mips(interactif)>");
-            fgets (&instruction, SIZE, stdin);
+            fgets (instruction, SIZE, stdin);
+			instruction = strbreak(&instruction, '\n');
 
 			while ((strcmp(instruction, "exit\n") != 0) && (strcmp(instruction, "EXIT\n") != 0)) {
 				//Affichage instruction hexadecimale
 				printf("%s\n", instructionToHex(instruction));
+
 				//Execution instruction
 
 				//Lecture instruction
