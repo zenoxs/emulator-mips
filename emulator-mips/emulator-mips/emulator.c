@@ -11,7 +11,7 @@ char* instructionToHex(char* instruction) {
 
 	if (strcmp(operation, "ADD") == 0) { // Instruction ADD
         
-		intInstruction = 32; // 100000 bits
+		intInstruction = 0b100000; // 100000 bits
 
 		intRegister = registerToInt(strbreak(&instruction, ','));
 		intInstruction |= (intRegister << 11);
@@ -29,7 +29,7 @@ char* instructionToHex(char* instruction) {
     }
 	else if (strcmp(operation, "ADDI") == 0) { // Instruction ADDI
         
-        intInstruction = (8 << (2*5 + 16));// 001000 bits
+        intInstruction = (0b001000 << (2*5 + 16));// 001000 bits
         
         intRegister = registerToInt(strbreak(&instruction, ','));
         intInstruction |= (intRegister << (16)); // rt
@@ -41,8 +41,7 @@ char* instructionToHex(char* instruction) {
         
         strbreak(&instruction, ' ');
         
-        intRegister = registerToInt(instruction); // Immediate
-        intInstruction |= intRegister;
+        intInstruction |= atoi(instruction); // Immediate
     }
 	else if (strcmp(operation, "AND") == 0) { // Instruction ADD
 
@@ -62,13 +61,12 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (2 * 5 + 6));
 
 	}
-
 	else if (strcmp(operation, "BEQ") == 0) { // Instruction ADD
 
 		intInstruction |= 0b000100 << (2 * 5 + 16); // 000100 bits
 
 		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
-		intInstruction |= (intRegister << 5 + 16);
+		intInstruction |= (intRegister << (5 + 16));
 
 		strbreak(&instruction, ' ');
 
@@ -77,8 +75,157 @@ char* instructionToHex(char* instruction) {
 
 		strbreak(&instruction, ' ');
 
-		intRegister = atoi(strbreak(&instruction, '\n')); // offset
-		intInstruction |= intRegister;
+		intInstruction |= atoi(instruction); // offset
+
+	}
+	else if (strcmp(operation, "BGTZ") == 0) { // Instruction ADD
+
+		intInstruction |= 0b000111 << (2 * 5 + 16); // 000111 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
+		intInstruction |= (intRegister << (5 + 16));
+
+		strbreak(&instruction, ' ');
+
+		intInstruction |= atoi(instruction); // offset
+
+	}
+	else if (strcmp(operation, "BLEZ") == 0) { // Instruction ADD
+
+		intInstruction |= 0b000110 << (2 * 5 + 16); // 000110 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
+		intInstruction |= (intRegister << (5 + 16));
+
+		strbreak(&instruction, ' ');
+
+		intInstruction |= atoi(instruction); // offset
+
+	}
+	else if (strcmp(operation, "BNE") == 0) { // Instruction ADD
+
+		intInstruction |= 0b000101 << (2 * 5 + 16); // 000101 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
+		intInstruction |= (intRegister << (5 + 16));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rt
+		intInstruction |= (intRegister << 16);
+
+		strbreak(&instruction, ' ');
+
+		intInstruction |= atoi(instruction); // offset
+
+	}
+	else if (strcmp(operation, "DIV") == 0) { // Instruction ADD
+
+		intInstruction |= 0b011010; // 011010 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
+		intInstruction |= (intRegister << (5 + 10 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(instruction); // rt
+		intInstruction |= (intRegister << 10 + 6);
+
+	}
+	else if (strcmp(operation, "J") == 0) { // Instruction ADD
+
+		intInstruction |= 0b000010 << 26; // 000010 bits
+		//...
+	}
+	else if (strcmp(operation, "JAL") == 0) { // Instruction ADD
+
+		intInstruction |= 0b000011 << 26; // 000011 bits
+		//...
+	}
+	else if (strcmp(operation, "JR") == 0) { // Instruction ADD
+
+		intInstruction |= 0b001000; // 001000 bits
+
+		intRegister = registerToInt(instruction); // rs
+		intInstruction |= (intRegister << (10 + 5 + 6));
+		//...
+	}
+	else if (strcmp(operation, "LUI") == 0) { // Instruction ADD
+
+		intInstruction |= 0b001111 << (2 * 5 + 16); // 001111 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rt
+		intInstruction |= (intRegister << 16);
+
+		strbreak(&instruction, ' ');
+
+		intInstruction |= atoi(instruction); // immediate
+
+	}
+	else if (strcmp(operation, "LW") == 0) { // Instruction ADD
+
+		intInstruction |= 0b100011 << (2 * 5 + 16); // 100011 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rt
+		intInstruction |= (intRegister << 16);
+
+		strbreak(&instruction, ' ');
+
+		intInstruction |= atoi(strbreak(&instruction, '(')); // offset
+
+		instruction = strbreak(instruction, ')');
+
+		intInstruction |= atoi(instruction) << (5 + 16); // base
+
+	}
+	else if (strcmp(operation, "MFHI") == 0) { // Instruction ADD
+
+		intInstruction |= 0b010000; // 010000 bits
+
+		intRegister = registerToInt(instruction); // rd
+		intInstruction |= (intRegister << (5 + 6));
+
+	}
+	else if (strcmp(operation, "MFLO") == 0) { // Instruction ADD
+
+		intInstruction |= 0b010010; // 010010 bits
+
+		intRegister = registerToInt(instruction); // rd
+		intInstruction |= (intRegister << (5 + 6));
+	}
+	else if (strcmp(operation, "MULT") == 0) { // Instruction ADD
+
+		intInstruction = 011000; // 011000 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
+		intInstruction |= (intRegister << (5 + 10 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(instruction); // rt
+		intInstruction |= (intRegister << (10 + 6));
+
+	}
+	else if (strcmp(operation, "NOP") == 0) { // Instruction ADD
+
+		intInstruction = 0;
+	}
+	else if (strcmp(operation, "OR") == 0) { // Instruction ADD
+
+		intInstruction = 100101; // 100101 bits
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rd
+		intInstruction |= (intRegister << (5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(strbreak(&instruction, ',')); // rs
+		intInstruction |= (intRegister << (3*5 + 6));
+
+		strbreak(&instruction, ' ');
+
+		intRegister = registerToInt(instruction); // rt
+		intInstruction |= (intRegister << (2 * 5 + 6));
 
 	}
 
