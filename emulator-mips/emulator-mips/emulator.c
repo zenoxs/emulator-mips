@@ -1,5 +1,7 @@
 #include "emulator.h"
 
+
+
 char* instructionToHex(char* instruction) {
     
     char* hexInstruction = malloc(10 * sizeof(char)); // Instruction en hexadecimal
@@ -48,7 +50,7 @@ char* instructionToHex(char* instruction) {
         intInstruction |= 0b100100; // 100100 bits
         
         intRegister = registerToInt(strbreak(&instruction, ',')); // rd
-        intInstruction |= (intRegister << 5 + 6);
+        intInstruction |= (intRegister << (5 + 6));
         
         strbreak(&instruction, ' ');
         
@@ -129,7 +131,7 @@ char* instructionToHex(char* instruction) {
         strbreak(&instruction, ' ');
         
         intRegister = registerToInt(instruction); // rt
-        intInstruction |= (intRegister << 10 + 6);
+        intInstruction |= (intRegister << (10 + 6));
         
     }
     else if (strcmp(operation, "J") == 0) { // Instruction ADD
@@ -359,4 +361,61 @@ char* instructionToHex(char* instruction) {
     sprintf(hexInstruction, "0x%08X", intInstruction);
     
     return hexInstruction;
+}
+
+char** readInstructionFromFile(char* name){
+    
+    FILE* file;
+    int nbLine=0;
+    int i = 0;
+    int stopPath = 0;
+    char path[1024];
+    char newPath[1024];
+    uint32_t size = sizeof(path);
+    
+    if (_NSGetExecutablePath(path, &size) == 0)
+        printf("executable path is %s\n", path);
+    else
+        printf("buffer too small; need size %u\n", size);
+    
+    while(path[i] != '\0'){
+        if(path[i] == '/'){
+            stopPath = i;
+        }
+        i++;
+    }
+    
+    for(i=0; i<stopPath; i++){
+        newPath[i] = path[i];
+    }
+    newPath[i] = '\0';
+    
+    sprintf(newPath, "%s/%s", newPath, name);
+    
+    /* Ouverture du fichier */
+    file = fopen(name, "r");
+    
+    if(file == NULL) {
+        perror("Probleme ouverture fichier");
+        exit(1);
+    }
+    
+    /* Lecture dans le fichier */
+    while(!feof(file)) {
+        fscanf(file, "%d", &nbLine);
+        nbLine++;
+    }
+    
+    char **table = (char**)malloc(nbLine * sizeof(char*));
+    char *line = (char *)malloc(sizeof(char) * nbLine * MAX_CHAR_INSTRUCTION);
+    
+    for(i = 0; i < nbLine; i++){
+        table[i] = &line[i*MAX_CHAR_INSTRUCTION];
+    }
+    
+    
+    /* Fermeture du fichier */
+    fclose(file);
+    
+    return table;
 }

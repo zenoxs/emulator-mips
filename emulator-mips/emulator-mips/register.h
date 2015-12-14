@@ -13,9 +13,10 @@
 # define strtok_r strtok_s
 #endif
 
-
+#include <string.h>
 #include <stdio.h>
-#include "memory.h"
+#include <stdint.h>
+#include <stdlib.h>
 
 typedef struct {
     char* name;

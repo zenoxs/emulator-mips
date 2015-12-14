@@ -7,9 +7,11 @@
 #include <stdint.h>
 #include "register.h"
 
+#define MAX_CHAR_INSTRUCTION 25
+
 void displayProgHex(FILE* file);
 void displayInstructionHex(char* instruction);
-char* readInstructionFromFile(FILE* file, int* ligne);
+char** readInstructionFromFile(char* name);
 char* instructionToHex(char* instruction);
 void executeInstruction(char* instruction);
 void saveResults(char* fileName, char* result);

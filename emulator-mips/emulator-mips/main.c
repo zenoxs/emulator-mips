@@ -29,6 +29,9 @@ int main(int argc, char * argv[]) {
         case 2: // Mode non-interactif
             
             //Lecture instruction
+            printf("emul-mips(non-interactif) \n");
+            
+            char** tableInstruction = readInstructionFromFile(argv[1]);
             
             
             while (1) {
