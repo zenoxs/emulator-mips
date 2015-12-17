@@ -58,7 +58,13 @@ char* getExecutablePath(char* nameFile){
     
     sprintf(newPath, "%s/%s", newPath, nameFile);
 #elif defined(_WIN32) || defined(_WIN64)
-    sprintf(newPath, ".\%s", nameFile);
+    char full[1024];
+    
+    if(_fullpath(newPath, nameFile, 1024) != NULL)
+        printf("The full path is: %s\n", full);
+    else
+        printf("Invalid path.\n");
+    //sprintf(newPath, ".\%s", nameFile);
 #else
     sprintf(newPath, "./%s", nameFile);
 #endif
