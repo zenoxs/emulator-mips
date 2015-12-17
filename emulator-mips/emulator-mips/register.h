@@ -35,5 +35,5 @@ strbreak: Divise une chaine de caractere en 2 sous-chaines
 Parametres: 
 	- s: 
 */
-char* strbreak(char** s, char delimit);
+
 #endif /* register_h */

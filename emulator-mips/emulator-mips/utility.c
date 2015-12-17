@@ -27,6 +27,22 @@ char** createTable(int nbLin, int nbCol){
     return tab;
 }
 
+char* strbreak(char** s, char delimit) {
+    char* result = malloc(10 * sizeof(char));
+    int i = 0;
+    
+    if (strchr(*s, delimit) != NULL) { // Si le delimiteur est present dans s
+        while (((*s)[i] != '\0') && ((*s)[i] != delimit)) { // On extrait la sous-chaine avant delimit
+            result[i] = (*s)[i];
+            i++;
+        }
+        result[i] = '\0';
+        *s = &((*s)[i + 1]); // s devient la sous-chaine apres delimit
+    }
+    
+    return result;
+}
+
 char* getExecutablePath(char* nameFile){
     
     char* newPath = malloc(sizeof(char)*1024); // Chemin du retour + nom du fichier

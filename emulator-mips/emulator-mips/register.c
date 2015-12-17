@@ -8,22 +8,6 @@
 
 #include "register.h"
 
-char* strbreak(char** s, char delimit) {
-	char* result = malloc(10 * sizeof(char));
-	int i = 0;
-
-	if (strchr(*s, delimit) != NULL) { // Si le delimiteur est present dans s
-		while (((*s)[i] != '\0') && ((*s)[i] != delimit)) { // On extrait la sous-chaine avant delimit
-			result[i] = (*s)[i];
-			i++;
-		}
-		result[i] = '\0';
-		*s = &((*s)[i + 1]); // s devient la sous-chaine apres delimit 
-	}
-
-	return result;
-}
-
 uint32_t registerToInt(char* name){
 	uint32_t result = 0;
 	char* noRegister;
