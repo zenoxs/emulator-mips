@@ -8,7 +8,7 @@
 
 #include "utility.h"
 
-char **createTable(int nbLin, int nbCol){
+char** createTable(int nbLin, int nbCol){
     /*char **tableau = (char **)malloc(sizeof(char*)*nbLin);
     char *tableau2 = (char *)malloc(sizeof(char)*nbCol*nbLin);
     for(int i = 0 ; i < nbLin ; i++){
@@ -27,9 +27,9 @@ char **createTable(int nbLin, int nbCol){
     return tab;
 }
 
-char *getExecutablePath(char *nameFile){
+char* getExecutablePath(char* nameFile){
     
-    char *newPath = malloc(sizeof(char)*1024); // Chemin du retour + nom du fichier
+    char* newPath = malloc(sizeof(char)*1024); // Chemin du retour + nom du fichier
     
 #if defined(__APPLE__) && defined(__MACH__)
     char path[1024]; // Chemin temporaire
@@ -66,9 +66,25 @@ char *getExecutablePath(char *nameFile){
     return newPath;
 }
 
-char **readFile(char* name){
+int saveFile(char* text, char* nameFile, char* mode){
     
-    FILE *file;
+    FILE* file = fopen(nameFile, mode);
+    
+    if(file == NULL) {
+        perror("Probleme ouverture fichier");
+        exit(1);
+    }
+    
+    fprintf(file, "%s \n", text);
+    
+    fclose(file);
+    
+    return 0;
+}
+
+char** readFile(char* name){
+    
+    FILE* file;
     int nbLine=0;
     int i = 0;
     char *readLine = malloc(24 * sizeof(char)); // Instruction en hexadecimal
