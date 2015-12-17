@@ -5,6 +5,7 @@
 int main(int argc, char * argv[]) {
     
     char* instruction = malloc(SIZE * sizeof(char));
+	char** tableInstructions;
     
     switch (argc) {
         case 1: //Mode interactif
@@ -23,15 +24,14 @@ int main(int argc, char * argv[]) {
                 //Lecture instruction
                 printf("emul-mips(interactif)>");
                 fgets (instruction, SIZE, stdin);
+				instruction = strbreak(&instruction, '\n');
             }
             
             break;
         case 2: // Mode non-interactif
             
-            //Lecture instruction
-            printf("emul-mips(non-interactif) \n");
-            
-            char** tableInstruction = readInstructionFromFile(argv[1]);
+            //Lecture du programme
+			tableInstructions = readInstructionFromFile(argv[1]);
             
             
             while (1) {
@@ -43,7 +43,7 @@ int main(int argc, char * argv[]) {
                 
             }
             break;
-        case 3: // Mode pas ˆ pas
+        case 3: // Mode pas a pas
             
             //Lecture instruction
             
