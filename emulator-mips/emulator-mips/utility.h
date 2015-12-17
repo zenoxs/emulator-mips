@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 char *getExecutablePath(char *nameFile);
-char **createTable(int nbLin, int nbCol);
+char** readFile(char* name); // stock le contenu d'un tableau
+char **createTable(int nbLin, int nbCol); // créée un tableau de char à 2D
 
 #endif /* utility_h */
