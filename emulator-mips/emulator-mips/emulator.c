@@ -9,10 +9,17 @@ char *instructionToHex(char *instruction) {
     uint32_t intRegister = 0; // numero du registre
     char *operation;
     
-    operation = strbreak(&instruction, ' ');
+    operation = strbreak(&instruction, ' '); // Recupere l'opcode
     
     if (strcmp(operation, "ADD") == 0) { // Instruction ADD
-        
+        /*
+		 31		  26 25		  21 20		  16 15       11 10        6 5         0			
+		 ___________|___________|___________|___________|___________|___________  
+		|  SPECIAL	|	 rs		|	 rt		|	 rd		|	  0		|	 ADD	|
+		|  000000	|			|			|			|	00000	|   100000	|
+		|___________|___________|___________|___________|___________|___________|
+			  6			  5			  5			  5			  5			   6	*/
+
         intInstruction = 0b100000; // 100000 bits
         
         intRegister = registerToInt(strbreak(&instruction, ','));
