@@ -1,18 +1,32 @@
 #include "emulator.h"
 
 
-
+/*******************************************************
+- fonction instructionToHex:
+	Traduis une instruction MIPS en hexadecimal
+- paramètre:
+	instruction : instruction MIPS
+- retour:
+	instruction en hexadecimal
+*******************************************************/
 char* instructionToHex(char* instruction) {
     
-    char* hexInstruction = malloc(10 * sizeof(char)); // Instruction en hexadecimal
-    uint32_t intInstruction = 0;
-    uint32_t intRegister = 0; // numero du registre
-    char* operation;
+    char* hexInstruction = malloc(10 * sizeof(char));	// Instruction en hexadecimal
+    uint32_t intInstruction = 0;						// Instruction en binaire
+    uint32_t intRegister = 0;							// Numero du registre
+    char* operation;									// Opcode
     
-    operation = strbreak(&instruction, ' ');
+    operation = strbreak(&instruction, ' '); // Recupere l'opcode
     
     if (strcmp(operation, "ADD") == 0) { // Instruction ADD
-        
+        /*
+		 31		  26 25		  21 20		  16 15       11 10        6 5         0			
+		 ___________|___________|___________|___________|___________|___________  
+		|  SPECIAL	|	 rs		|	 rt		|	 rd		|	  0		|	 ADD	|
+		|  000000	|			|			|			|	00000	|   100000	|
+		|___________|___________|___________|___________|___________|___________|
+			  6			  5			  5			  5			  5			   6	*/
+
         intInstruction = 0b100000; // 100000 bits
         
         intRegister = registerToInt(strbreak(&instruction, ','));
@@ -363,7 +377,16 @@ char* instructionToHex(char* instruction) {
     return hexInstruction;
 }
 
-char** readInstructionFromFile(char* name){
+
+/*******************************************************
+- fonction readInstructionsFromFile:
+Lis les instructions stockés dans un fichier texte
+- paramètre:
+	name: nom du fichier
+- retour:
+	tableau contenant les instructions
+*******************************************************/
+char** readInstructionsFromFile(char* name){
     
     FILE* file;
     int nbLine=0;
