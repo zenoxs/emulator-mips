@@ -2,12 +2,12 @@
 
 
 
-char* instructionToHex(char* instruction) {
+char *instructionToHex(char *instruction) {
     
-    char* hexInstruction = malloc(10 * sizeof(char)); // Instruction en hexadecimal
+    char *hexInstruction = malloc(10 * sizeof(char)); // Instruction en hexadecimal
     uint32_t intInstruction = 0;
     uint32_t intRegister = 0; // numero du registre
-    char* operation;
+    char *operation;
     
     operation = strbreak(&instruction, ' ');
     
@@ -363,34 +363,15 @@ char* instructionToHex(char* instruction) {
     return hexInstruction;
 }
 
-char** readInstructionFromFile(char* name){
+
+char **readInstructionFromFile(char* name){
     
-    FILE* file;
+    FILE *file;
     int nbLine=0;
     int i = 0;
-    int stopPath = 0;
-    char path[1024];
-    char newPath[1024];
-    uint32_t size = sizeof(path);
+    char *readLine = malloc(24 * sizeof(char)); // Instruction en hexadecimal
     
-    if (_NSGetExecutablePath(path, &size) == 0)
-        printf("executable path is %s\n", path);
-    else
-        printf("buffer too small; need size %u\n", size);
-    
-    while(path[i] != '\0'){
-        if(path[i] == '/'){
-            stopPath = i;
-        }
-        i++;
-    }
-    
-    for(i=0; i<stopPath; i++){
-        newPath[i] = path[i];
-    }
-    newPath[i] = '\0';
-    
-    sprintf(newPath, "%s/%s", newPath, name);
+    name = getExecutablePath(name); // recupération du chemin du fichier
     
     /* Ouverture du fichier */
     file = fopen(name, "r");
@@ -400,19 +381,32 @@ char** readInstructionFromFile(char* name){
         exit(1);
     }
     
-    /* Lecture dans le fichier */
+    /* Recupération du nombre de ligne du fichier */
     while(!feof(file)) {
-        fscanf(file, "%d", &nbLine);
+        fgets(readLine,MAX_CHAR_INSTRUCTION, file);
         nbLine++;
     }
     
-    char **table = (char**)malloc(nbLine * sizeof(char*));
-    char *line = (char *)malloc(sizeof(char) * nbLine * MAX_CHAR_INSTRUCTION);
+    /* Création d'un tableau à 2D dynamique */
+    char **table = createTable(nbLine, MAX_CHAR_INSTRUCTION);
     
-    for(i = 0; i < nbLine; i++){
-        table[i] = &line[i*MAX_CHAR_INSTRUCTION];
+    /* Lecture dans le fichier */
+    file = fopen(name, "r");
+    nbLine = 0;
+    while(!feof(file)) {
+        fgets(readLine,MAX_CHAR_INSTRUCTION, file);
+        /*for(i=0; i<MAX_CHAR_INSTRUCTION; i++){
+            table[nbLine][i] = readLine[i];
+        }*/
+        strcpy(table[nbLine], readLine); // Stockage du fichier dans le tableau
+        //printf("%s \n", table[nbLine]);
+        nbLine++;
     }
     
+    for(i=0; i<nbLine; i++){
+        printf("%s \n", table[i]);
+        nbLine++;
+    }
     
     /* Fermeture du fichier */
     fclose(file);
