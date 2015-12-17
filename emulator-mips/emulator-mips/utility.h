@@ -14,5 +14,6 @@
 
 char *getExecutablePath(char *nameFile);
 char **createTable(int nbLin, int nbCol);
+char* strbreak(char** s, char delimit);
 
 #endif /* utility_h */
