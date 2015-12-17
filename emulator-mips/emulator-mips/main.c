@@ -1,4 +1,5 @@
 #include "emulator.h"
+#include "utility.h"
 
 #define SIZE 50
 
@@ -32,7 +33,7 @@ int main(int argc, char * argv[]) {
         case 1: // Mode non-interactif
             
             //Lecture du programme
-			tableInstructions = readInstructionFromFile("C:\Users\Romain\Source\Repos\emulator-mips\emulator-mips\emulator-mips\Debug\prog.txt", &nbIntructions);
+			tableInstructions = readFile("C:\Users\Romain\Source\Repos\emulator-mips\emulator-mips\emulator-mips\Debug\prog.txt", &nbIntructions);
             
             while (1) {
 				int i = 0;
