@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MAX_CHAR_INSTRUCTION 25
+
 char *getExecutablePath(char *nameFile);
 char** readFile(char* name); // stock le contenu d'un tableau
 char **createTable(int nbLin, int nbCol); // créée un tableau de char à 2D
