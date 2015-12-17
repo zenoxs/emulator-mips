@@ -8,7 +8,7 @@
 
 #include "utility.h"
 
-char **createTable(int nbLin, int nbCol){
+char** createTable(int nbLin, int nbCol){
     /*char **tableau = (char **)malloc(sizeof(char*)*nbLin);
     char *tableau2 = (char *)malloc(sizeof(char)*nbCol*nbLin);
     for(int i = 0 ; i < nbLin ; i++){
@@ -27,9 +27,9 @@ char **createTable(int nbLin, int nbCol){
     return tab;
 }
 
-char *getExecutablePath(char *nameFile){
+char* getExecutablePath(char* nameFile){
     
-    char *newPath = malloc(sizeof(char)*1024); // Chemin du retour + nom du fichier
+    char* newPath = malloc(sizeof(char)*1024); // Chemin du retour + nom du fichier
     
 #if defined(__APPLE__) && defined(__MACH__)
     char path[1024]; // Chemin temporaire
@@ -58,7 +58,13 @@ char *getExecutablePath(char *nameFile){
     
     sprintf(newPath, "%s/%s", newPath, nameFile);
 #elif defined(_WIN32) || defined(_WIN64)
-    sprintf(newPath, "%s", nameFile);
+    char full[1024];
+    
+    if(_fullpath(newPath, nameFile, 1024) != NULL)
+        printf("The full path is: %s\n", full);
+    else
+        printf("Invalid path.\n");
+    //sprintf(newPath, ".\%s", nameFile);
 #else
     sprintf(newPath, "./%s", nameFile);
 #endif
@@ -66,18 +72,68 @@ char *getExecutablePath(char *nameFile){
     return newPath;
 }
 
-char* strbreak(char** s, char delimit) {
-	char* result = malloc(10 * sizeof(char));
-	int i = 0;
+int saveFile(char* text, char* nameFile, char* mode){
+    
+    FILE* file = fopen(nameFile, mode);
+    
+    if(file == NULL) {
+        perror("Probleme ouverture fichier");
+        exit(1);
+    }
+    
+    fprintf(file, "%s \n", text);
+    
+    fclose(file);
+    
+    return 0;
+}
 
-	if (strchr(*s, delimit) != NULL) { // Si le delimiteur est present dans s
-		while (((*s)[i] != '\0') && ((*s)[i] != delimit)) { // On extrait la sous-chaine avant delimit
-			result[i] = (*s)[i];
-			i++;
-		}
-		result[i] = '\0';
-		*s = &((*s)[i + 1]); // s devient la sous-chaine apres delimit 
-	}
-
-	return result;
+char** readFile(char* name){
+    
+    FILE* file;
+    int nbLine=0;
+    int i = 0;
+    char *readLine = malloc(24 * sizeof(char)); // Instruction en hexadecimal
+    
+    name = getExecutablePath(name); // recupération du chemin du fichier
+    
+    /* Ouverture du fichier */
+    file = fopen(name, "r");
+    
+    if(file == NULL) {
+        perror("Probleme ouverture fichier");
+        exit(1);
+    }
+    
+    /* Recupération du nombre de ligne du fichier */
+    while(!feof(file)) {
+        fgets(readLine,MAX_CHAR_INSTRUCTION, file);
+        nbLine++;
+    }
+    
+    /* Création d'un tableau à 2D dynamique */
+    char **table = createTable(nbLine, MAX_CHAR_INSTRUCTION);
+    
+    /* Lecture dans le fichier */
+    file = fopen(name, "r");
+    nbLine = 0;
+    while(!feof(file)) {
+        fgets(readLine,MAX_CHAR_INSTRUCTION, file);
+        /*for(i=0; i<MAX_CHAR_INSTRUCTION; i++){
+         table[nbLine][i] = readLine[i];
+         }*/
+        strcpy(table[nbLine], readLine); // Stockage du fichier dans le tableau
+        //printf("%s \n", table[nbLine]);
+        nbLine++;
+    }
+    
+    for(i=0; i<nbLine; i++){
+        printf("%s \n", table[i]);
+        nbLine++;
+    }
+    
+    /* Fermeture du fichier */
+    fclose(file);
+    
+    return table;
 }

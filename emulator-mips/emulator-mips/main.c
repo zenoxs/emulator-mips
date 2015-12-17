@@ -38,10 +38,10 @@ int main(int argc, char * argv[]) {
 				int i = 0;
 				printf("Instruction\t\t\tHexadecimal");
 				for (i = 0; i < nbIntructions; i++) {
-					//Affichage instruction hexadecimale
+                //Affichage instruction hexadecimale
 					printf("%s\t\t\t%s", tableInstructions[i], instructionToHex(tableInstructions[i]));
-					
-					//Execution instruction
+                
+                //Execution instruction
 				}
                 
             }

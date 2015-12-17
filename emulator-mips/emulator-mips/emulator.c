@@ -378,11 +378,10 @@ char* instructionToHex(char* instruction) {
 }
 
 
-char **readInstructionFromFile(char* name, int* size){
+char **readInstructionFromFile(char* name){
     
     FILE *file;
-	size = 0;
-    int nbLine = 0;
+    int nbLine=0;
     int i = 0;
     char *readLine = malloc(24 * sizeof(char)); // Instruction en hexadecimal
     
@@ -399,14 +398,15 @@ char **readInstructionFromFile(char* name, int* size){
     /* Recupération du nombre de ligne du fichier */
     while(!feof(file)) {
         fgets(readLine,MAX_CHAR_INSTRUCTION, file);
-        size++;
+        nbLine++;
     }
     
     /* Création d'un tableau à 2D dynamique */
-    char **table = createTable(size, MAX_CHAR_INSTRUCTION);
+    char **table = createTable(nbLine, MAX_CHAR_INSTRUCTION);
     
     /* Lecture dans le fichier */
     file = fopen(name, "r");
+    nbLine = 0;
     while(!feof(file)) {
         fgets(readLine,MAX_CHAR_INSTRUCTION, file);
         /*for(i=0; i<MAX_CHAR_INSTRUCTION; i++){
@@ -417,10 +417,10 @@ char **readInstructionFromFile(char* name, int* size){
         nbLine++;
     }
     
-    /*for(i=0; i<nbLine; i++){
+    for(i=0; i<nbLine; i++){
         printf("%s \n", table[i]);
         nbLine++;
-    }*/
+    }
     
     /* Fermeture du fichier */
     fclose(file);
