@@ -1,13 +1,20 @@
 #include "emulator.h"
 
 
-
-char *instructionToHex(char *instruction) {
+/*******************************************************
+- fonction instructionToHex:
+	Traduis une instruction MIPS en hexadecimal
+- paramËtre:
+	instruction : instruction MIPS
+- retour:
+	instruction en hexadecimal
+*******************************************************/
+char* instructionToHex(char* instruction) {
     
-    char *hexInstruction = malloc(10 * sizeof(char)); // Instruction en hexadecimal
-    uint32_t intInstruction = 0;
-    uint32_t intRegister = 0; // numero du registre
-    char *operation;
+    char* hexInstruction = malloc(10 * sizeof(char));	// Instruction en hexadecimal
+    uint32_t intInstruction = 0;						// Instruction en binaire
+    uint32_t intRegister = 0;							// Numero du registre
+    char* operation;									// Opcode
     
     operation = strbreak(&instruction, ' '); // Recupere l'opcode
     

@@ -10,12 +10,10 @@
 
 #define MAX_CHAR_INSTRUCTION 25
 
-void displayProgHex(FILE* file);
-void displayInstructionHex(char* instruction);
-char **readInstructionFromFile(char* name);
-char *instructionToHex(char* instruction);
-void executeInstruction(char* instruction);
-void saveResults(char* fileName, char* result);
-
+void displayProgHex(char** prog);				// Affiche le programme MIPS en hexadecimal
+char** readInstructionsFromFile(char* name);		// Stocke le programme MIPS dans un tableau
+char* instructionToHex(char* instruction);		// Traduis une instruction en hexadecimal
+void executeInstruction(char* instruction);		// Execute une instruction
+void saveResults(char* fileName, char* result); // Sauvegarde les rÈsultats dans un fichier texte
 
 #endif /* emulator_h */
