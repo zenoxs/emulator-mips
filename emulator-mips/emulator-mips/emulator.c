@@ -384,6 +384,7 @@ void readFile(char* name){
     int i = 0;
 	int nbLines = 0;
     char* instruction = malloc(MAX_CHAR_INSTRUCTION * sizeof(char)); // Instruction
+	char* hexInstruction;
     
     name = getExecutablePath(name); // recupération du chemin du fichier
     
@@ -399,13 +400,19 @@ void readFile(char* name){
         fgets(instruction, MAX_CHAR_INSTRUCTION, file);
         nbLines++;
     }
-	nbLines--;
+	nbLines--; // Décremente d'une ligne a cause de feof
+
 	rewind(file); // Reinitialise le curseur de la ligne dans le fichier
+	eraseFile("resultats.txt"); // Efface le contenu du fichier
 
 	for(i = 0; i < nbLines; i++){
 		fgets(instruction, MAX_CHAR_INSTRUCTION, file);
 		instruction = strbreak(&instruction, '\n');
-		printf("%s\t\t%s\n", instruction, instructionToHex(instruction));
+		hexInstruction = instructionToHex(instruction);
+		printf("%s\t\t%s\n", instruction, hexInstruction);
+		//strcat(instruction, " = ");
+		//strcat(instruction, hexInstruction);
+		saveFile(instruction, "resultats.txt");
 	}
     
     /* Fermeture du fichier */

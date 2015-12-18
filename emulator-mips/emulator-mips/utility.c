@@ -69,18 +69,23 @@ char* getExecutablePath(char* nameFile){
     return newPath;
 }
 
-int saveFile(char* text, char* nameFile, char* mode){
-    
-    FILE* file = fopen(nameFile, mode);
+int saveFile(char* text, char* nameFile){
+	
+    FILE* file = fopen(nameFile, "a");
     
     if(file == NULL) {
         perror("Probleme ouverture fichier");
         exit(1);
     }
     
-    fprintf(file, "%s \n", text);
+    fprintf(file, "%s\n", text);
     
     fclose(file);
     
     return 0;
+}
+
+void eraseFile(char* name){
+	FILE* file = fopen(name, "w+");
+	fclose(file);
 }

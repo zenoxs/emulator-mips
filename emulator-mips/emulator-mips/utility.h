@@ -13,10 +13,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_CHAR_INSTRUCTION 25
+#define MAX_CHAR_INSTRUCTION 50
 
 char* getExecutablePath(char *nameFile);
 char* strbreak(char** s, char delimit);
-int saveFile(char* text, char* nameFile, char* mode); // Sauvegarde le contenu d'une chaine de caractére dans un fichier
+int saveFile(char* text, char* nameFile); // Sauvegarde le contenu d'une chaine de caractére dans un fichier
+void eraseFile(char* name);
 
 #endif /* utility_h */
