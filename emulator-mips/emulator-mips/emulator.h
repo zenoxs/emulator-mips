@@ -12,5 +12,6 @@ void displayProgHex(char** prog);				// Affiche le programme MIPS en hexadecimal
 char* instructionToHex(char* instruction);		// Traduis une instruction en hexadecimal
 void executeInstruction(char* instruction);		// Execute une instruction
 void saveResults(char* fileName, char* result); // Sauvegarde les rÈsultats dans un fichier texte
+void readFile(char* name);
 
 #endif /* emulator_h */

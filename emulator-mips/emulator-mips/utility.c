@@ -8,25 +8,6 @@
 
 #include "utility.h"
 
-char** createTable(int nbLin, int nbCol){
-    /*char **tableau = (char **)malloc(sizeof(char*)*nbLin);
-    char *tableau2 = (char *)malloc(sizeof(char)*nbCol*nbLin);
-    for(int i = 0 ; i < nbLin ; i++){
-        tableau[i] = &tableau2[i*nbCol];
-    }*/
-    
-    char **tab;
-    
-    /* Allocation de la 1er dimension */
-    tab = (char **)malloc ( sizeof(char *)  *  nbLin);
-    /* Allocation 2e dimension */
-    for (int i = 0 ; i < nbLin ; i++){
-        tab[i] = (char *)malloc (sizeof(char) * nbCol);
-    }
-    
-    return tab;
-}
-
 char* strbreak(char** s, char delimit) {
     char* result = malloc(10 * sizeof(char));
     int i = 0;
@@ -102,54 +83,4 @@ int saveFile(char* text, char* nameFile, char* mode){
     fclose(file);
     
     return 0;
-}
-
-char** readFile(char* name){
-    
-    FILE* file;
-    int nbLine=0;
-    int i = 0;
-    char *readLine = malloc(24 * sizeof(char)); // Instruction en hexadecimal
-    
-    name = getExecutablePath(name); // recupération du chemin du fichier
-    
-    /* Ouverture du fichier */
-    file = fopen(name, "r");
-    
-    if(file == NULL) {
-        perror("Probleme ouverture fichier");
-        exit(1);
-    }
-    
-    /* Recupération du nombre de ligne du fichier */
-    while(!feof(file)) {
-        fgets(readLine,MAX_CHAR_INSTRUCTION, file);
-        nbLine++;
-    }
-    
-    /* Création d'un tableau à 2D dynamique */
-    char **table = createTable(nbLine, MAX_CHAR_INSTRUCTION);
-    
-    /* Lecture dans le fichier */
-    file = fopen(name, "r");
-    nbLine = 0;
-    while(!feof(file)) {
-        fgets(readLine,MAX_CHAR_INSTRUCTION, file);
-        /*for(i=0; i<MAX_CHAR_INSTRUCTION; i++){
-         table[nbLine][i] = readLine[i];
-         }*/
-        strcpy(table[nbLine], readLine); // Stockage du fichier dans le tableau
-        //printf("%s \n", table[nbLine]);
-        nbLine++;
-    }
-    
-    for(i=0; i<nbLine; i++){
-        printf("%s \n", table[i]);
-        nbLine++;
-    }
-    
-    /* Fermeture du fichier */
-    fclose(file);
-    
-    return table;
 }

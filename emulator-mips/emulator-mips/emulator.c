@@ -4,7 +4,7 @@
 /*******************************************************
 - fonction instructionToHex:
 	Traduis une instruction MIPS en hexadecimal
-- paramËtre:
+- parametre:
 	instruction : instruction MIPS
 - retour:
 	instruction en hexadecimal
@@ -151,12 +151,18 @@ char* instructionToHex(char* instruction) {
     else if (strcmp(operation, "J") == 0) { // Instruction ADD
         
         intInstruction |= 0b000010 << 26; // 000010 bits
-        //...
+
+		// adresse instruction sous la forme 0x_________
+        strbreak(&instruction, 'x');
+		intInstruction |= atoi(instruction);
     }
     else if (strcmp(operation, "JAL") == 0) { // Instruction ADD
         
         intInstruction |= 0b000011 << 26; // 000011 bits
-        //...
+
+        // adresse instruction sous la forme 0x_________
+        strbreak(&instruction, 'x');
+		intInstruction |= atoi(instruction);
     }
     else if (strcmp(operation, "JR") == 0) { // Instruction ADD
         
@@ -164,7 +170,6 @@ char* instructionToHex(char* instruction) {
         
         intRegister = registerToInt(instruction); // rs
         intInstruction |= (intRegister << (10 + 5 + 6));
-        //...
     }
     else if (strcmp(operation, "LUI") == 0) { // Instruction ADD
         
@@ -258,8 +263,7 @@ char* instructionToHex(char* instruction) {
         
         strbreak(&instruction, ' ');
         
-        intRegister = registerToInt(instruction); // sa
-        intInstruction |= (intRegister << 6);
+        intInstruction |= (atoi(instruction) << 6); // sa
         intInstruction |= 1 << (3 * 5 + 6);
         
     }
@@ -277,8 +281,7 @@ char* instructionToHex(char* instruction) {
         
         strbreak(&instruction, ' ');
         
-        intRegister = registerToInt(instruction); // sa
-        intInstruction |= (intRegister << 6);
+        intInstruction |= (atoi(instruction) << 6); // sa
         
     }
     else if (strcmp(operation, "SLT") == 0) { // Instruction ADD
@@ -313,8 +316,7 @@ char* instructionToHex(char* instruction) {
         
         strbreak(&instruction, ' ');
         
-        intRegister = registerToInt(instruction); // sa
-        intInstruction |= (intRegister << 6);
+        intInstruction |= (atoi(instruction) << 6); // sa
     }
     else if (strcmp(operation, "SUB") == 0) { // Instruction ADD
         
@@ -351,7 +353,6 @@ char* instructionToHex(char* instruction) {
     else if (strcmp(operation, "SYSCALL") == 0) { // Instruction ADD
         
         intInstruction = 0b001100; // 001100 bits
-        //...
     }
     else if (strcmp(operation, "XOR") == 0) { // Instruction ADD
         
@@ -375,4 +376,38 @@ char* instructionToHex(char* instruction) {
     sprintf(hexInstruction, "0x%08X", intInstruction);
     
     return hexInstruction;
+}
+
+void readFile(char* name){
+    
+    FILE* file;
+    int i = 0;
+	int nbLines = 0;
+    char* instruction = malloc(MAX_CHAR_INSTRUCTION * sizeof(char)); // Instruction
+    
+    name = getExecutablePath(name); // recupération du chemin du fichier
+    
+    /* Ouverture du fichier */
+    file = fopen(name, "r");
+    
+    if(file == NULL) {
+        perror("Probleme ouverture fichier");
+        exit(1);
+    }
+    
+	while(!feof(file)) {
+        fgets(instruction, MAX_CHAR_INSTRUCTION, file);
+        nbLines++;
+    }
+	nbLines--;
+	rewind(file); // Reinitialise le curseur de la ligne dans le fichier
+
+	for(i = 0; i < nbLines; i++){
+		fgets(instruction, MAX_CHAR_INSTRUCTION, file);
+		instruction = strbreak(&instruction, '\n');
+		printf("%s\t\t%s\n", instruction, instructionToHex(instruction));
+	}
+    
+    /* Fermeture du fichier */
+    fclose(file);
 }
