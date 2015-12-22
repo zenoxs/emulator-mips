@@ -171,13 +171,13 @@ Registers initRegisters() {
 }
 
 
-void displayRegister(Registers R) {
+void displayRegisters(Registers R) {
 	int i;
 
-	printf("Registers:");
+	printf("Registers:\n\n");
 
 	for (i = 0; i < NB_REGISTERS; i++) {
-		printf("\t\t$%s\t$%i\t%i\n", R[i].name, i, R[i].value);
+		printf("$%s\t$%i\t%i\n", R[i].name, i, R[i].value);
 	}
 }
 

@@ -11,13 +11,20 @@
 
 #include "utility.h"
 
-typedef struct {
+typedef struct Byte Byte;
+
+struct Byte {
     uint32_t address;
     int8_t value;
-}Byte;
+	Byte* next;
+};
 
 typedef Byte* Memory;
 
-void displayMemory(Memory M);
+Memory initMemory();
+void insert(Memory* memory, uint32_t address, int8_t value);
+int8_t readMemory(Memory* memory, uint32_t address);
+void setMemory(Memory* memory, uint32_t address, int8_t value);
+void displayMemory(Memory memory);
 
 #endif /* memory_h */

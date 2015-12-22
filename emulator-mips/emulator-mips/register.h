@@ -19,7 +19,7 @@ typedef struct {
 typedef Register* Registers;
 
 Registers initRegisters();
-void displayRegister(Registers R);
+void displayRegisters(Registers R);
 void setRegister(Registers R, char* name, int32_t value);
 int32_t getRegister(Registers R, char* name);
 uint32_t registerToInt(char* name);

@@ -4,10 +4,12 @@ int main(int argc, char * argv[]) {
 
 	char* instruction = malloc(MAX_CHAR_INSTRUCTION * sizeof(char));
 	char* instructionHex;
+	Registers registres = initRegisters();
+	Memory memory = initMemory();
 
 	switch (argc) {
 	case 1: //Mode interactif
-			// Suppression du contenu du fichier resultats
+		// Suppression du contenu du fichier resultats
 		eraseFile("resultats_interactif.txt");
 
 		//Lecture instruction
@@ -38,13 +40,13 @@ int main(int argc, char * argv[]) {
 		break;
 	case 2: // Mode non-interactif
 
-			//Lecture du programme et affichage des instructions en hexa
+		//Lecture du programme et affichage des instructions en hexa
 		readFile(argv[1]);
 
 		break;
 	case 3: // Mode pas a pas
 
-			//Lecture instruction
+		//Lecture instruction
 
 
 		while (1) {
@@ -57,5 +59,6 @@ int main(int argc, char * argv[]) {
 		}
 		break;
 	}
+
 	return 0;
 }

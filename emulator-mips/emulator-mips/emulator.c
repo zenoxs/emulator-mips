@@ -19,13 +19,6 @@ char* instructionToHex(char* instruction) {
 	operation = strbreak(&instruction, ' '); // Recupere l'opcode
 
 	if (strcmp(operation, "ADD") == 0) { // Instruction ADD
-										 /*
-										 31		  26 25		  21 20		  16 15       11 10        6 5         0
-										 ___________|___________|___________|___________|___________|___________
-										 |  SPECIAL	|	 rs		|	 rt		|	 rd		|	  0		|	 ADD	|
-										 |  000000	|			|			|			|	00000	|   100000	|
-										 |___________|___________|___________|___________|___________|___________|
-										 6			  5			  5			  5			  5			   6	*/
 
 		intInstruction = 0b100000; // 100000 bits
 
@@ -59,7 +52,7 @@ char* instructionToHex(char* instruction) {
 
 		intInstruction |= atoi(instruction); // Immediate
 	}
-	else if (strcmp(operation, "AND") == 0) { // Instruction ADD
+	else if (strcmp(operation, "AND") == 0) { // Instruction AND
 
 		intInstruction |= 0b100100; // 100100 bits
 
@@ -77,7 +70,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (2 * 5 + 6));
 
 	}
-	else if (strcmp(operation, "BEQ") == 0) { // Instruction ADD
+	else if (strcmp(operation, "BEQ") == 0) { // Instruction BEQ
 
 		intInstruction |= 0b000100 << (2 * 5 + 16); // 000100 bits
 
@@ -94,7 +87,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= atoi(instruction); // offset
 
 	}
-	else if (strcmp(operation, "BGTZ") == 0) { // Instruction ADD
+	else if (strcmp(operation, "BGTZ") == 0) { // Instruction BGTZ
 
 		intInstruction |= 0b000111 << (2 * 5 + 16); // 000111 bits
 
@@ -106,7 +99,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= atoi(instruction); // offset
 
 	}
-	else if (strcmp(operation, "BLEZ") == 0) { // Instruction ADD
+	else if (strcmp(operation, "BLEZ") == 0) { // Instruction BLEZ
 
 		intInstruction |= 0b000110 << (2 * 5 + 16); // 000110 bits
 
@@ -118,7 +111,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= atoi(instruction); // offset
 
 	}
-	else if (strcmp(operation, "BNE") == 0) { // Instruction ADD
+	else if (strcmp(operation, "BNE") == 0) { // Instruction BNE
 
 		intInstruction |= 0b000101 << (2 * 5 + 16); // 000101 bits
 
@@ -135,7 +128,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= atoi(instruction); // offset
 
 	}
-	else if (strcmp(operation, "DIV") == 0) { // Instruction ADD
+	else if (strcmp(operation, "DIV") == 0) { // Instruction DIV
 
 		intInstruction |= 0b011010; // 011010 bits
 
@@ -148,7 +141,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (10 + 6));
 
 	}
-	else if (strcmp(operation, "J") == 0) { // Instruction ADD
+	else if (strcmp(operation, "J") == 0) { // Instruction JUMP
 
 		intInstruction |= 0b000010 << 26; // 000010 bits
 
@@ -156,7 +149,7 @@ char* instructionToHex(char* instruction) {
 		strbreak(&instruction, 'x');
 		intInstruction |= atoi(instruction);
 	}
-	else if (strcmp(operation, "JAL") == 0) { // Instruction ADD
+	else if (strcmp(operation, "JAL") == 0) { // Instruction JAL
 
 		intInstruction |= 0b000011 << 26; // 000011 bits
 
@@ -164,14 +157,14 @@ char* instructionToHex(char* instruction) {
 		strbreak(&instruction, 'x');
 		intInstruction |= atoi(instruction);
 	}
-	else if (strcmp(operation, "JR") == 0) { // Instruction ADD
+	else if (strcmp(operation, "JR") == 0) { // Instruction JR
 
 		intInstruction |= 0b001000; // 001000 bits
 
 		intRegister = registerToInt(instruction); // rs
 		intInstruction |= (intRegister << (10 + 5 + 6));
 	}
-	else if (strcmp(operation, "LUI") == 0) { // Instruction ADD
+	else if (strcmp(operation, "LUI") == 0) { // Instruction LUI
 
 		intInstruction |= 0b001111 << (2 * 5 + 16); // 001111 bits
 
@@ -183,7 +176,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= atoi(instruction); // immediate
 
 	}
-	else if (strcmp(operation, "LW") == 0) { // Instruction ADD
+	else if (strcmp(operation, "LW") == 0) { // Instruction LW
 
 		intInstruction |= 0b100011 << (2 * 5 + 16); // 100011 bits
 
@@ -194,12 +187,11 @@ char* instructionToHex(char* instruction) {
 
 		intInstruction |= atoi(strbreak(&instruction, '(')); // offset
 
-		instruction = strbreak(&instruction, ')');
-
-		intInstruction |= atoi(instruction) << (5 + 16); // base
+		intRegister = registerToInt(strbreak(&instruction, ')')); // base
+		intInstruction |= (intRegister << (5 + 16));
 
 	}
-	else if (strcmp(operation, "MFHI") == 0) { // Instruction ADD
+	else if (strcmp(operation, "MFHI") == 0) { // Instruction MFHI
 
 		intInstruction |= 0b010000; // 010000 bits
 
@@ -207,14 +199,14 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (5 + 6));
 
 	}
-	else if (strcmp(operation, "MFLO") == 0) { // Instruction ADD
+	else if (strcmp(operation, "MFLO") == 0) { // Instruction MFLO
 
 		intInstruction |= 0b010010; // 010010 bits
 
 		intRegister = registerToInt(instruction); // rd
 		intInstruction |= (intRegister << (5 + 6));
 	}
-	else if (strcmp(operation, "MULT") == 0) { // Instruction ADD
+	else if (strcmp(operation, "MULT") == 0) { // Instruction MULT
 
 		intInstruction = 0b011000; // 011000 bits
 
@@ -227,11 +219,11 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (10 + 6));
 
 	}
-	else if (strcmp(operation, "NOP") == 0) { // Instruction ADD
+	else if (strcmp(operation, "NOP") == 0) { // Instruction NOP
 
 		intInstruction = 0;
 	}
-	else if (strcmp(operation, "OR") == 0) { // Instruction ADD
+	else if (strcmp(operation, "OR") == 0) { // Instruction OR
 
 		intInstruction = 0b100101; // 100101 bits
 
@@ -249,7 +241,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (2 * 5 + 6));
 
 	}
-	else if (strcmp(operation, "ROTR") == 0) { // Instruction ADD
+	else if (strcmp(operation, "ROTR") == 0) { // Instruction ROTR
 
 		intInstruction = 0b000010; // 000010 bits
 
@@ -267,7 +259,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= 1 << (3 * 5 + 6);
 
 	}
-	else if (strcmp(operation, "SLL") == 0) { // Instruction ADD
+	else if (strcmp(operation, "SLL") == 0) { // Instruction SLL
 
 		intInstruction = 0b000000; // 000000 bits
 
@@ -284,7 +276,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (atoi(instruction) << 6); // sa
 
 	}
-	else if (strcmp(operation, "SLT") == 0) { // Instruction ADD
+	else if (strcmp(operation, "SLT") == 0) { // Instruction SLT
 
 		intInstruction = 0b101010; // 101010 bits
 
@@ -302,7 +294,7 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (2 * 5 + 6));
 
 	}
-	else if (strcmp(operation, "SRL") == 0) { // Instruction ADD
+	else if (strcmp(operation, "SRL") == 0) { // Instruction SRL
 
 		intInstruction = 0b000010; // 000010 bits
 
@@ -318,7 +310,7 @@ char* instructionToHex(char* instruction) {
 
 		intInstruction |= (atoi(instruction) << 6); // sa
 	}
-	else if (strcmp(operation, "SUB") == 0) { // Instruction ADD
+	else if (strcmp(operation, "SUB") == 0) { // Instruction SUB
 
 		intInstruction = 0b100010; // 100010 bits
 
@@ -335,7 +327,7 @@ char* instructionToHex(char* instruction) {
 		intRegister = registerToInt(instruction); // rt
 		intInstruction |= (intRegister << (2 * 5 + 6));
 	}
-	else if (strcmp(operation, "SW") == 0) { // Instruction ADD
+	else if (strcmp(operation, "SW") == 0) { // Instruction SW
 
 		intInstruction = 0b101011 << (2 * 5 + 16); // 101011 bits
 
@@ -346,15 +338,14 @@ char* instructionToHex(char* instruction) {
 
 		intInstruction |= atoi(strbreak(&instruction, '(')); // offset
 
-		instruction = strbreak(&instruction, ')');
-
-		intInstruction |= atoi(instruction) << (5 + 16); // base
+		intRegister = registerToInt(strbreak(&instruction, ')')); // base
+		intInstruction |= (intRegister << (5 + 16));
 	}
-	else if (strcmp(operation, "SYSCALL") == 0) { // Instruction ADD
+	else if (strcmp(operation, "SYSCALL") == 0) { // Instruction SYSCALL
 
 		intInstruction = 0b001100; // 001100 bits
 	}
-	else if (strcmp(operation, "XOR") == 0) { // Instruction ADD
+	else if (strcmp(operation, "XOR") == 0) { // Instruction XOR
 
 		intInstruction = 0b100110; // 100110 bits
 
