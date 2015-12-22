@@ -410,9 +410,9 @@ void readFile(char* name){
 		instruction = strbreak(&instruction, '\n');
 		hexInstruction = instructionToHex(instruction);
 		printf("%s\t\t%s\n", instruction, hexInstruction);
-		//strcat(instruction, " = ");
-		//strcat(instruction, hexInstruction);
-		saveFile(instruction, "resultats.txt");
+		strcat(instruction, " = ");
+		strcat(instruction, hexInstruction);
+		saveFile(instruction, "resultats_non_interactif.txt");
 	}
     
     /* Fermeture du fichier */
