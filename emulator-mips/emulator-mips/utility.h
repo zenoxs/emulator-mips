@@ -12,8 +12,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+
+#include "emulator.h"
+#include "register.h"
+#include "memory.h"
 
 #define MAX_CHAR_INSTRUCTION 50
+#define NB_REGISTERS 34
 
 char* getExecutablePath(char *nameFile);
 char* strbreak(char** s, char delimit);

@@ -9,8 +9,7 @@
 #ifndef memory_h
 #define memory_h
 
-#include <stdio.h>
-#include <stdint.h>
+#include "utility.h"
 
 typedef struct {
     uint32_t address;

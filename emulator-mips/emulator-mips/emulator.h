@@ -1,17 +1,10 @@
 #ifndef emulator_h
 #define emulator_h
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include "register.h"
 #include "utility.h"
 
-void displayProgHex(char** prog);				// Affiche le programme MIPS en hexadecimal
 char* instructionToHex(char* instruction);		// Traduis une instruction en hexadecimal
 void executeInstruction(char* instruction);		// Execute une instruction
-void saveResults(char* fileName, char* result); // Sauvegarde les rÈsultats dans un fichier texte
-void readFile(char* name);
+void readFile(char* name);						// Lis un programme
 
 #endif /* emulator_h */
