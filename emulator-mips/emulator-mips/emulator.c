@@ -363,13 +363,16 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (2 * 5 + 6));
 
 	}
+	else
+		hexInstruction = NULL;
 
-	sprintf(hexInstruction, "0x%08X", intInstruction);
+	if(hexInstruction != NULL)
+		sprintf(hexInstruction, "0x%08X", intInstruction);
 
 	return hexInstruction;
 }
 
-void readFile(char* name) {
+void readFile(char* name, int mode) {
 
 	FILE* file;
 	int i = 0;
@@ -404,12 +407,97 @@ void readFile(char* name) {
 		strcat(instruction, "\t\t\t");
 		strcat(instruction, hexInstruction);
 		saveFile(instruction, "resultats_non_interactif.txt");
+		if (mode == PAS_A_PAS) {
+			printf("Appuyez sur ENTREE pour continuer...");
+			scanf("%s");
+		}	
 	}
 
 	/* Fermeture du fichier */
 	//fclose(file);
 }
 
-void executeInstruction(char* instruction) {
+void executeInstruction(char* instruction, Memory memory, Registers registers) {
+	char* operation;	// Opcode
 
+	operation = strbreak(&instruction, ' '); // Recupere l'opcode
+
+	if (strcmp(operation, "ADD") == 0) { // Instruction ADD
+
+	}
+	else if (strcmp(operation, "ADDI") == 0) { // Instruction ADDI
+
+	}
+	else if (strcmp(operation, "AND") == 0) { // Instruction AND
+
+	}
+	else if (strcmp(operation, "BEQ") == 0) { // Instruction BEQ
+
+	}
+	else if (strcmp(operation, "BGTZ") == 0) { // Instruction BGTZ
+
+	}
+	else if (strcmp(operation, "BLEZ") == 0) { // Instruction BLEZ
+
+	}
+	else if (strcmp(operation, "BNE") == 0) { // Instruction BNE
+
+	}
+	else if (strcmp(operation, "DIV") == 0) { // Instruction DIV
+
+	}
+	else if (strcmp(operation, "J") == 0) { // Instruction JUMP
+
+	}
+	else if (strcmp(operation, "JAL") == 0) { // Instruction JAL
+
+	}
+	else if (strcmp(operation, "JR") == 0) { // Instruction JR
+
+	}
+	else if (strcmp(operation, "LUI") == 0) { // Instruction LUI
+
+	}
+	else if (strcmp(operation, "LW") == 0) { // Instruction LW
+
+	}
+	else if (strcmp(operation, "MFHI") == 0) { // Instruction MFHI
+
+	}
+	else if (strcmp(operation, "MFLO") == 0) { // Instruction MFLO
+
+	}
+	else if (strcmp(operation, "MULT") == 0) { // Instruction MULT
+
+	}
+	else if (strcmp(operation, "NOP") == 0) { // Instruction NOP
+
+	}
+	else if (strcmp(operation, "OR") == 0) { // Instruction OR
+
+	}
+	else if (strcmp(operation, "ROTR") == 0) { // Instruction ROTR
+
+	}
+	else if (strcmp(operation, "SLL") == 0) { // Instruction SLL
+
+	}
+	else if (strcmp(operation, "SLT") == 0) { // Instruction SLT
+
+	}
+	else if (strcmp(operation, "SRL") == 0) { // Instruction SRL
+
+	}
+	else if (strcmp(operation, "SUB") == 0) { // Instruction SUB
+
+	}
+	else if (strcmp(operation, "SW") == 0) { // Instruction SW
+
+	}
+	else if (strcmp(operation, "SYSCALL") == 0) { // Instruction SYSCALL
+
+	}
+	else if (strcmp(operation, "XOR") == 0) { // Instruction XOR
+
+	}
 }

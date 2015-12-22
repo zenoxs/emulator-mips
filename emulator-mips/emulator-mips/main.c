@@ -21,15 +21,20 @@ int main(int argc, char * argv[]) {
 			// Traduction instruction en hexadecimal
 			instructionHex = instructionToHex(instruction);
 
-			// Affichage instruction hexadecimale
-			printf("%s\n", instructionHex);
+			if (instructionHex != NULL) {
+				// Affichage instruction hexadecimale
+				printf("%s\n", instructionHex);
 
-			// Sauvegarde des resultats
-			strcat(instruction, " = ");
-			strcat(instruction, instructionHex);
-			saveFile(instruction, "resultats_interactif.txt");
+				// Sauvegarde des resultats
+				strcat(instruction, " = ");
+				strcat(instruction, instructionHex);
+				saveFile(instruction, "resultats_interactif.txt");
 
-			// Execution instruction
+				// Execution instruction
+
+			}
+			else
+				printf("Wrong instruction !\n");
 
 			// Lecture instruction suivante
 			printf("emul-mips(interactif)>");
@@ -41,22 +46,14 @@ int main(int argc, char * argv[]) {
 	case 2: // Mode non-interactif
 
 		//Lecture du programme et affichage des instructions en hexa
-		readFile(argv[1]);
+		readFile(argv[1], 0);
 
 		break;
 	case 3: // Mode pas a pas
 
-		//Lecture instruction
+		//Affichage instruction hexadecimale
+		readFile(argv[1], PAS_A_PAS);
 
-
-		while (1) {
-			//Affichage instruction hexadecimale
-
-			//Execution instruction
-
-			//Lecture instruction
-
-		}
 		break;
 	}
 
