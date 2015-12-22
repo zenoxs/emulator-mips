@@ -33,7 +33,7 @@ int main(int argc, char * argv[]) {
         case 1: // Mode non-interactif
             
             //Lecture du programme
-			tableInstructions = readFile("C:\Users\Romain\Source\Repos\emulator-mips\emulator-mips\emulator-mips\Debug\prog.txt", &nbIntructions);
+			tableInstructions = readFile("prog.txt", &nbIntructions);
             
             while (1) {
 				int i = 0;
