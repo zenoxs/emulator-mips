@@ -27,7 +27,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E654C9251C1EC069005445EA /* ex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ex; sourceTree = "<group>"; };
+		E62DC8211C23F969009EC40D /* prog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = prog.txt; sourceTree = "<group>"; };
 		E654C9261C1EC316005445EA /* utility.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utility.c; sourceTree = "<group>"; };
 		E654C9271C1EC316005445EA /* utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utility.h; sourceTree = "<group>"; };
 		E67A23961C13276B0044C00D /* emulator-mips */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "emulator-mips"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,7 +70,7 @@
 		E67A23981C13276B0044C00D /* emulator-mips */ = {
 			isa = PBXGroup;
 			children = (
-				E654C9251C1EC069005445EA /* ex */,
+				E62DC8211C23F969009EC40D /* prog.txt */,
 				E67A23A01C1328240044C00D /* emulator.c */,
 				E67A23A11C1328240044C00D /* emulator.h */,
 				E67A23A21C1328240044C00D /* main.c */,

@@ -11,13 +11,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-#define MAX_CHAR_INSTRUCTION 25
+#define MAX_CHAR_INSTRUCTION 50
 
 char* getExecutablePath(char *nameFile);
 char* strbreak(char** s, char delimit);
-char** readFile(char* name); // stock le contenu d'un tableau
-int saveFile(char* text, char* nameFile, char* mode); // Sauvegarde le contenu d'une chaine de caractére dans un fichier
-char** createTable(int nbLin, int nbCol); // créée un tableau de char à 2D
+int saveFile(char* text, char* nameFile); // Sauvegarde le contenu d'une chaine de caractére dans un fichier
+void eraseFile(char* name);
 
 #endif /* utility_h */

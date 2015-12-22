@@ -6,11 +6,10 @@
 int main(int argc, char * argv[]) {
     
     char* instruction = malloc(SIZE * sizeof(char));
-	char** tableInstructions;
 	int nbIntructions = 0;
     
     switch (argc) {
-        case 2: //Mode interactif
+        case 1: //Mode interactif
             
             //Lecture instruction
             printf("emul-mips(interactif)>");
@@ -30,22 +29,13 @@ int main(int argc, char * argv[]) {
             }
             
             break;
-        case 1: // Mode non-interactif
+        case 2: // Mode non-interactif
+
+            printf("Instruction\t\tHexadecimal\n\n");
             
             //Lecture du programme
-			tableInstructions = readFile("prog.txt", &nbIntructions);
-            
-            while (1) {
-				int i = 0;
-				printf("Instruction\t\t\tHexadecimal");
-				for (i = 0; i < nbIntructions; i++) {
-                //Affichage instruction hexadecimale
-					printf("%s\t\t\t%s", tableInstructions[i], instructionToHex(tableInstructions[i]));
+			readFile(argv[1]);
                 
-                //Execution instruction
-				}
-                
-            }
             break;
         case 3: // Mode pas a pas
             
