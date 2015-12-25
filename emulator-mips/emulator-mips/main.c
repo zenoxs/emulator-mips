@@ -1,10 +1,12 @@
 #include "utility.h"
+#include "memory.h"
+#include "register.h"
 
 int main(int argc, char * argv[]) {
 
 	char* instruction = malloc(MAX_CHAR_INSTRUCTION * sizeof(char));
 	char* instructionHex;
-	Registers registres = initRegisters();
+	Registers registers = initRegisters();
 	Memory memory = initMemory();
 
 	switch (argc) {
@@ -31,7 +33,9 @@ int main(int argc, char * argv[]) {
 				saveFile(instruction, "resultats_interactif.txt");
 
 				// Execution instruction
-
+				executeInstruction(instruction, memory, registers);
+				displayRegisters(registers);
+				displayMemory(memory);
 			}
 			else
 				printf("Wrong instruction !\n");

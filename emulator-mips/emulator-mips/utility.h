@@ -14,10 +14,6 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "emulator.h"
-#include "register.h"
-#include "memory.h"
-
 #define MAX_CHAR_INSTRUCTION 50
 #define NB_REGISTERS 34
 #define PAS_A_PAS 1

@@ -423,7 +423,12 @@ void executeInstruction(char* instruction, Memory memory, Registers registers) {
 	operation = strbreak(&instruction, ' '); // Recupere l'opcode
 
 	if (strcmp(operation, "ADD") == 0) { // Instruction ADD
-
+		char* rd = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		int32_t rs = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		int32_t rt = getRegister(registers, instruction);
+		setRegister(registers, rd, rs + rt);
 	}
 	else if (strcmp(operation, "ADDI") == 0) { // Instruction ADDI
 
