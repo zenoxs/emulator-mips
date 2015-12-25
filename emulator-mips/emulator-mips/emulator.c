@@ -436,7 +436,7 @@ void executeInstruction(char* instruction, Memory memory, Registers registers) {
 		strbreak(&instruction, ' ');
 		rs_value = getRegister(registers, strbreak(&instruction, ','));
 		strbreak(&instruction, ' ');
-		rt_value = getRegister(registers, instruction);
+		rt_value = getRegister(registers, instruction);// a verifier: rt n'est pas lu
 		setRegister(registers, rd, rs_value + rt_value);
 	}
 	else if (strcmp(operation, "ADDI") == 0) { // Instruction ADDI

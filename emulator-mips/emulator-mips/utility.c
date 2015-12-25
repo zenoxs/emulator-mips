@@ -9,7 +9,7 @@
 #include "utility.h"
 
 char* strbreak(char** s, char delimit) {
-	char* result = malloc(10 * sizeof(char));
+	char* result = malloc(20 * sizeof(char));
 	int i = 0;
 
 	if (strchr(*s, delimit) != NULL) { // Si le delimiteur est present dans s
