@@ -114,3 +114,16 @@ void displayMemory(Memory memory) {
 		byte = byte->next;
 	}
 }
+
+int32_t loadWord(Memory* memory, uint32_t address) {
+	int32_t word = readMemory(memory, address) + readMemory(memory, address + 1) << 8 + readMemory(memory, address + 2) << 16 + readMemory(memory, address + 3) << 24;
+	return word;
+}
+
+
+void storeWord(Memory* memory, uint32_t address, int32_t value) {
+	setMemory(memory, address, value & 0b11111111);
+	setMemory(memory, address + 1, (value & (0b11111111 << 8)) >> 8);
+	setMemory(memory, address + 2, (value & (0b11111111 << 16)) >> 16);
+	setMemory(memory, address + 3, (value & (0b11111111 << 24)) >> 24);
+}

@@ -419,22 +419,41 @@ void readFile(char* name, int mode) {
 
 void executeInstruction(char* instruction, Memory memory, Registers registers) {
 	char* operation;	// Opcode
+	char* rd;
+	char* rs;
+	char* rt;
+	char* base;
+	int32_t rd_value;
+	int32_t rs_value;
+	int32_t rt_value;
+	int16_t immediate;
+	int16_t offset;
 
 	operation = strbreak(&instruction, ' '); // Recupere l'opcode
 
 	if (strcmp(operation, "ADD") == 0) { // Instruction ADD
-		char* rd = strbreak(&instruction, ',');
+		rd = strbreak(&instruction, ',');
 		strbreak(&instruction, ' ');
-		int32_t rs = getRegister(registers, strbreak(&instruction, ','));
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
 		strbreak(&instruction, ' ');
-		int32_t rt = getRegister(registers, instruction);
-		setRegister(registers, rd, rs + rt);
+		rt_value = getRegister(registers, instruction);
+		setRegister(registers, rd, rs_value + rt_value);
 	}
 	else if (strcmp(operation, "ADDI") == 0) { // Instruction ADDI
-
+		rt = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		immediate = atoi(instruction);
+		setRegister(registers, rt, rs_value + immediate);
 	}
 	else if (strcmp(operation, "AND") == 0) { // Instruction AND
-
+		rd = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, instruction);
+		setRegister(registers, rd, rs_value & rt_value);
 	}
 	else if (strcmp(operation, "BEQ") == 0) { // Instruction BEQ
 
@@ -449,7 +468,11 @@ void executeInstruction(char* instruction, Memory memory, Registers registers) {
 
 	}
 	else if (strcmp(operation, "DIV") == 0) { // Instruction DIV
-
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, instruction);
+		setRegister(registers, "$LO", rs_value / rt_value);
+		setRegister(registers, "$HI", rs_value % rt_value);
 	}
 	else if (strcmp(operation, "J") == 0) { // Instruction JUMP
 
@@ -461,48 +484,108 @@ void executeInstruction(char* instruction, Memory memory, Registers registers) {
 
 	}
 	else if (strcmp(operation, "LUI") == 0) { // Instruction LUI
-
+		rt = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		immediate = atoi(instruction);
+		setRegister(registers, rt, immediate << 16);
 	}
 	else if (strcmp(operation, "LW") == 0) { // Instruction LW
+		rt = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		offset = atoi(strbreak(&instruction, '('));
+		base = strbreak(&instruction, ')');
+		int32_t address = offset + getRegister(registers, base);
 
+		if (((address & 0b1) != 0) && ((address & 0b10) != 0))
+			//exception
+			printf("\nexception load word\n");
+		else
+			//address translation ???
+			setRegister(registers, rt, loadWord(memory, address));
 	}
 	else if (strcmp(operation, "MFHI") == 0) { // Instruction MFHI
-
+		setRegister(registers, instruction, getRegister(registers, "$HI"));
 	}
 	else if (strcmp(operation, "MFLO") == 0) { // Instruction MFLO
-
+		setRegister(registers, instruction, getRegister(registers, "$LO"));
 	}
 	else if (strcmp(operation, "MULT") == 0) { // Instruction MULT
-
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, instruction);
+		int64_t prod = rs_value * rt_value;
+		setRegister(registers, "$LO", prod | 0b11111111111111111111111111111111);
+		setRegister(registers, "$HI", (prod | (0b11111111111111111111111111111111 << 32)) >> 32);
 	}
 	else if (strcmp(operation, "NOP") == 0) { // Instruction NOP
-
+		// No operation
 	}
 	else if (strcmp(operation, "OR") == 0) { // Instruction OR
-
+		rd = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, instruction);
+		setRegister(registers, rd, rs_value | rt_value);
 	}
 	else if (strcmp(operation, "ROTR") == 0) { // Instruction ROTR
-
+		rd = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		int8_t sa = atoi(instruction);
+		//...
 	}
 	else if (strcmp(operation, "SLL") == 0) { // Instruction SLL
-
+		rd = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		int8_t sa = atoi(instruction);
+		setRegister(registers, rd, rt_value << sa);
 	}
 	else if (strcmp(operation, "SLT") == 0) { // Instruction SLT
 
 	}
 	else if (strcmp(operation, "SRL") == 0) { // Instruction SRL
-
+		rd = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		int8_t sa = atoi(instruction);
+		setRegister(registers, rd, rt_value >> sa);
 	}
 	else if (strcmp(operation, "SUB") == 0) { // Instruction SUB
-
+		rd = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, instruction);
+		setRegister(registers, rd, rs_value - rt_value);
 	}
 	else if (strcmp(operation, "SW") == 0) { // Instruction SW
+		rt = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		offset = atoi(strbreak(&instruction, '('));
+		base = strbreak(&instruction, ')');
+		int32_t address = offset + getRegister(registers, base);
 
+		if (((address & 0b1) != 0) && ((address & 0b10) != 0))
+			//exception
+			printf("\nexception load word\n");
+		else
+			//address translation ???
+			storeWord(memory, address, getRegister(registers, rt));
 	}
 	else if (strcmp(operation, "SYSCALL") == 0) { // Instruction SYSCALL
-
+		// No operation
 	}
 	else if (strcmp(operation, "XOR") == 0) { // Instruction XOR
-
+		rd = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, instruction);
+		setRegister(registers, rd, rs_value ^ rt_value);
 	}
 }
