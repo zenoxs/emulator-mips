@@ -1,6 +1,7 @@
 #include "utility.h"
 #include "memory.h"
 #include "register.h"
+#include "emulator.h"
 
 int main(int argc, char * argv[]) {
 
@@ -50,13 +51,13 @@ int main(int argc, char * argv[]) {
 	case 2: // Mode non-interactif
 
 		//Lecture du programme et affichage des instructions en hexa
-		readFile(argv[1], 0);
+		readFile(argv[1], 0, memory, registers);
 
 		break;
 	case 3: // Mode pas a pas
 
 		//Affichage instruction hexadecimale
-		readFile(argv[1], PAS_A_PAS);
+		readFile(argv[1], PAS_A_PAS, memory, registers);
 
 		break;
 	}

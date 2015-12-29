@@ -121,7 +121,7 @@ uint32_t registerToInt(char* name){
 	}
 
 	if ((result < 0) || (result > 33))
-		result = NULL;
+		result = (uint32_t) NULL;
 
     return result;
 }

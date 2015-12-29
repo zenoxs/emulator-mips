@@ -372,7 +372,7 @@ char* instructionToHex(char* instruction) {
 	return hexInstruction;
 }
 
-void readFile(char* name, int mode) {
+void readFile(char* name, int mode, Memory memory, Registers registers) {
 
 	FILE* file;
 	int i = 0;
@@ -404,9 +404,10 @@ void readFile(char* name, int mode) {
 		instruction = strbreak(&instruction, '\n');
 		hexInstruction = instructionToHex(instruction);
 		printf("%s\t\t\t%s\n", instruction, hexInstruction);
-		strcat(instruction, "\t\t\t");
-		strcat(instruction, hexInstruction);
-		saveFile(instruction, "resultats_non_interactif.txt");
+		executeInstruction(instruction, memory, registers);
+		//strcat(instruction, "\t\t\t");
+		//strcat(instruction, hexInstruction);
+		//saveFile(instruction, "resultats_non_interactif.txt");
 		if (mode == PAS_A_PAS) {
 			printf("Appuyez sur ENTREE pour continuer...");
 			scanf("%s");
@@ -420,10 +421,10 @@ void readFile(char* name, int mode) {
 void executeInstruction(char* instruction, Memory memory, Registers registers) {
 	char* operation;	// Opcode
 	char* rd;
-	char* rs;
+	//char* rs;
 	char* rt;
 	char* base;
-	int32_t rd_value;
+	//int32_t rd_value;
 	int32_t rs_value;
 	int32_t rt_value;
 	int16_t immediate;
