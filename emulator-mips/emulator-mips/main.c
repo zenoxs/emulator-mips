@@ -28,9 +28,9 @@ int main(int argc, char * argv[]) {
 				printf("%s\n", instructionHex);
 
 				// Sauvegarde des resultats
-				strcat(instruction, " = ");
-				strcat(instruction, instructionHex);
-				saveFile(instruction, "resultats_interactif.txt");
+				//strcat(instruction, " = ");
+				//strcat(instruction, instructionHex);
+				//saveFile(instruction, "resultats_interactif.txt");
 
 				// Execution instruction
 				executeInstruction(instruction, memory, registers);

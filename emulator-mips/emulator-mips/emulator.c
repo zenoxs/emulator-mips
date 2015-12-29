@@ -436,7 +436,7 @@ void executeInstruction(char* instruction, Memory memory, Registers registers) {
 		strbreak(&instruction, ' ');
 		rs_value = getRegister(registers, strbreak(&instruction, ','));
 		strbreak(&instruction, ' ');
-		rt_value = getRegister(registers, instruction);// a verifier: rt n'est pas lu
+		rt_value = getRegister(registers, instruction);
 		setRegister(registers, rd, rs_value + rt_value);
 	}
 	else if (strcmp(operation, "ADDI") == 0) { // Instruction ADDI
@@ -514,8 +514,8 @@ void executeInstruction(char* instruction, Memory memory, Registers registers) {
 		strbreak(&instruction, ' ');
 		rt_value = getRegister(registers, instruction);
 		int64_t prod = rs_value * rt_value;
-		setRegister(registers, "$LO", prod | 0b11111111111111111111111111111111);
-		setRegister(registers, "$HI", (prod | (0b11111111111111111111111111111111 << 32)) >> 32);
+		setRegister(registers, "$LO", prod & 0b11111111111111111111111111111111);
+		setRegister(registers, "$HI", (prod & (0b11111111111111111111111111111111 << 32)) >> 32);
 	}
 	else if (strcmp(operation, "NOP") == 0) { // Instruction NOP
 		// No operation

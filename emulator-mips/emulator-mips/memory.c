@@ -24,19 +24,16 @@ Memory initMemory() {
 }
 
 
-void insert(Memory* memory, uint32_t address, int8_t value) {
+void insert(Memory memory, uint32_t address, int8_t value) {
 	/* Création d'un nouvel emplacement memoire */
 	Byte* byte = malloc(sizeof(Byte));
-	Byte* before;
-	Byte* next;
+	Byte* before = memory;
+	Byte* next = memory->next;
 
-	if (*memory == NULL || byte == NULL)
+	if (memory == NULL || byte == NULL)
 	{
 		exit(EXIT_FAILURE);
 	}
-
-	before = (*memory);
-	next = (*memory)->next;
 
 	byte->value = value;
 	byte->address = address;
@@ -47,21 +44,24 @@ void insert(Memory* memory, uint32_t address, int8_t value) {
 		before = next;
 		next = next->next;
 	}
-	before->next = byte;
-	byte->next = next;
+
+	if ((next != NULL) && (address == next->address))
+		next->value = value;
+	else {
+		before->next = byte;
+		byte->next = next;
+	}
 }
 
 
-int8_t readMemory(Memory* memory, uint32_t address) {
+int8_t readMemory(Memory memory, uint32_t address) {
 	int8_t value = 0;
+	Byte* byte = memory->next; // Premier element
 
-	if (*memory == NULL)
+	if (memory == NULL)
 	{
 		exit(EXIT_FAILURE);
-	}
-
-	// Premier element
-	Byte* byte = *memory;
+	}	
 
 	while ((byte != NULL) && (address < byte->address))
 	{
@@ -77,14 +77,14 @@ int8_t readMemory(Memory* memory, uint32_t address) {
 }
 
 
-void setMemory(Memory* memory, uint32_t address, int8_t value) {
-	if (*memory == NULL)
+void setMemory(Memory memory, uint32_t address, int8_t value) {
+	if (memory == NULL)
 	{
 		exit(EXIT_FAILURE);
 	}
 
 	// Premier element
-	Byte* byte = *memory;
+	Byte* byte = memory;
 
 	while ((byte != NULL) && (address < byte->address))
 	{
@@ -115,13 +115,13 @@ void displayMemory(Memory memory) {
 	}
 }
 
-int32_t loadWord(Memory* memory, uint32_t address) {
-	int32_t word = readMemory(memory, address) + readMemory(memory, address + 1) << 8 + readMemory(memory, address + 2) << 16 + readMemory(memory, address + 3) << 24;
+int32_t loadWord(Memory memory, uint32_t address) {
+	int32_t word = readMemory(memory, address) + (readMemory(memory, address + 1) << 8) + (readMemory(memory, address + 2) << 16) + (readMemory(memory, address + 3) << 24);
 	return word;
 }
 
 
-void storeWord(Memory* memory, uint32_t address, int32_t value) {
+void storeWord(Memory memory, uint32_t address, int32_t value) {
 	setMemory(memory, address, value & 0b11111111);
 	setMemory(memory, address + 1, (value & (0b11111111 << 8)) >> 8);
 	setMemory(memory, address + 2, (value & (0b11111111 << 16)) >> 16);
