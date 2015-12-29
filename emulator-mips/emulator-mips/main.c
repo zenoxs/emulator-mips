@@ -33,8 +33,11 @@ int main(int argc, char * argv[]) {
 				//strcat(instruction, instructionHex);
 				//saveFile(instruction, "resultats_interactif.txt");
 
+				// Enregistrement de l'instruction
+				saveFile(instruction, "prog_interactif.txt");
+
 				// Execution instruction
-				executeInstruction(instruction, memory, registers);
+				executeInstruction(instruction, memory, registers, 0);
 				displayRegisters(registers);
 				displayMemory(memory);
 			}

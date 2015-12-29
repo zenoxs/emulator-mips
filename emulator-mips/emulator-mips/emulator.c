@@ -375,7 +375,8 @@ char* instructionToHex(char* instruction) {
 void readFile(char* name, int mode, Memory memory, Registers registers) {
 
 	FILE* file;
-	int i = 0;
+	int PC = 0;
+	int jump = PC;
 	int nbLines = 0;
 	char* instruction = malloc(MAX_CHAR_INSTRUCTION * sizeof(char)); // Instruction
 	char* hexInstruction;
@@ -397,38 +398,49 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 	nbLines--; // Décremente d'une ligne a cause de feof
 
 	rewind(file); // Reinitialise le curseur de la ligne dans le fichier
-	eraseFile("resultats_non_interactif.txt"); // Efface le contenu du fichier
+	//eraseFile("resultats_non_interactif.txt"); // Efface le contenu du fichier
 
-	for (i = 0; i < nbLines; i++) {
+	while(PC < nbLines) {
 		fgets(instruction, MAX_CHAR_INSTRUCTION, file);
-		instruction = strbreak(&instruction, '\n');
-		hexInstruction = instructionToHex(instruction);
-		printf("%s\t\t\t%s\n", instruction, hexInstruction);
-		executeInstruction(instruction, memory, registers);
-		//strcat(instruction, "\t\t\t");
-		//strcat(instruction, hexInstruction);
-		//saveFile(instruction, "resultats_non_interactif.txt");
-		if (mode == PAS_A_PAS) {
-			printf("Appuyez sur ENTREE pour continuer...");
-			scanf("%s");
-		}	
+
+		if (PC == jump) {
+			instruction = strbreak(&instruction, '\n');
+			hexInstruction = instructionToHex(instruction);
+			printf("%s\t\t\t%s\n", instruction, hexInstruction);
+			jump = executeInstruction(instruction, memory, registers, PC);
+
+			//strcat(instruction, "\t\t\t");
+			//strcat(instruction, hexInstruction);
+			//saveFile(instruction, "resultats_non_interactif.txt");
+
+			if (mode == PAS_A_PAS) {
+				printf("Appuyez sur ENTREE pour continuer...");
+				scanf("%s");
+			}
+
+			if (jump < PC) {
+				rewind(file);
+				PC = -1;
+			}
+		}
+
+		PC++;
 	}
 
 	/* Fermeture du fichier */
 	//fclose(file);
 }
 
-void executeInstruction(char* instruction, Memory memory, Registers registers) {
+int executeInstruction(char* instruction, Memory memory, Registers registers, int PC) {
 	char* operation;	// Opcode
 	char* rd;
-	//char* rs;
 	char* rt;
 	char* base;
-	//int32_t rd_value;
 	int32_t rs_value;
 	int32_t rt_value;
 	int16_t immediate;
 	int16_t offset;
+	int jump = PC;
 
 	operation = strbreak(&instruction, ' '); // Recupere l'opcode
 
@@ -457,16 +469,36 @@ void executeInstruction(char* instruction, Memory memory, Registers registers) {
 		setRegister(registers, rd, rs_value & rt_value);
 	}
 	else if (strcmp(operation, "BEQ") == 0) { // Instruction BEQ
-
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		offset = atoi(instruction);
+		if (rs_value == rt_value)
+			jump += offset;
 	}
 	else if (strcmp(operation, "BGTZ") == 0) { // Instruction BGTZ
-
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		offset = atoi(instruction);
+		if (rs_value > 0)
+			jump += offset;
 	}
 	else if (strcmp(operation, "BLEZ") == 0) { // Instruction BLEZ
-
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		offset = atoi(instruction);
+		if (rs_value <= 0)
+			jump += offset;
 	}
 	else if (strcmp(operation, "BNE") == 0) { // Instruction BNE
-
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		offset = atoi(instruction);
+		if (rs_value != rt_value)
+			jump += offset;
 	}
 	else if (strcmp(operation, "DIV") == 0) { // Instruction DIV
 		rs_value = getRegister(registers, strbreak(&instruction, ','));
@@ -535,7 +567,9 @@ void executeInstruction(char* instruction, Memory memory, Registers registers) {
 		rt_value = getRegister(registers, strbreak(&instruction, ','));
 		strbreak(&instruction, ' ');
 		int8_t sa = atoi(instruction);
-		//...
+		int32_t temp = rt_value & ((int32_t)pow(2, sa) - 1);
+		temp = (rt_value >> sa) | (temp << (32 - sa));
+		setRegister(registers, rd, temp);
 	}
 	else if (strcmp(operation, "SLL") == 0) { // Instruction SLL
 		rd = strbreak(&instruction, ',');
@@ -546,7 +580,12 @@ void executeInstruction(char* instruction, Memory memory, Registers registers) {
 		setRegister(registers, rd, rt_value << sa);
 	}
 	else if (strcmp(operation, "SLT") == 0) { // Instruction SLT
-
+		rd = strbreak(&instruction, ',');
+		strbreak(&instruction, ' ');
+		rs_value = getRegister(registers, strbreak(&instruction, ','));
+		strbreak(&instruction, ' ');
+		rt_value = getRegister(registers, instruction);
+		setRegister(registers, rd, (rs_value < rt_value));
 	}
 	else if (strcmp(operation, "SRL") == 0) { // Instruction SRL
 		rd = strbreak(&instruction, ',');
@@ -589,4 +628,6 @@ void executeInstruction(char* instruction, Memory memory, Registers registers) {
 		rt_value = getRegister(registers, instruction);
 		setRegister(registers, rd, rs_value ^ rt_value);
 	}
+
+	return jump;
 }
