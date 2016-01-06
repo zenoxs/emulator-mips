@@ -9,31 +9,19 @@
 #ifndef register_h
 #define register_h
 
-#if defined(_WIN32) || defined(_WIN64)
-# define strtok_r strtok_s
-#endif
-
-#include <string.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
+#include "utility.h"
 
 typedef struct {
     char* name;
-    char* mnemonique;
     int32_t value;
 }Register;
 
 typedef Register* Registers;
 
-void displayRegister(Registers R);
-void initRegisters(Registers R);
+Registers initRegisters();
+void displayRegisters(Registers R);
+void setRegister(Registers R, char* name, int32_t value);
+int32_t getRegister(Registers R, char* name);
 uint32_t registerToInt(char* name);
-
-/* 
-strbreak: Divise une chaine de caractere en 2 sous-chaines
-Parametres: 
-	- s: 
-*/
 
 #endif /* register_h */

@@ -12,8 +12,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #define MAX_CHAR_INSTRUCTION 50
+#define NB_REGISTERS 34
+#define PAS_A_PAS 1
 
 char* getExecutablePath(char *nameFile);
 char* strbreak(char** s, char delimit);
