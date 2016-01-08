@@ -69,7 +69,7 @@ char* getExecutablePath(char* nameFile) {
     return newPath;
 }
 
-int saveFile(char* text, char* nameFile) {
+int32_t saveFile(char* text, char* nameFile) {
     
     FILE* file = fopen(nameFile, "a");
     

@@ -147,7 +147,7 @@ char* instructionToHex(char* instruction) {
 
 										  // adresse instruction sous la forme 0x_________
 		strbreak(&instruction, 'x');
-		intInstruction |= atoi(instruction);
+		intInstruction |= hexaToInt(instruction);
 	}
 	else if (strcmp(operation, "JAL") == 0) { // Instruction JAL
 
@@ -155,7 +155,7 @@ char* instructionToHex(char* instruction) {
 
 										  // adresse instruction sous la forme 0x_________
 		strbreak(&instruction, 'x');
-		intInstruction |= atoi(instruction);
+		intInstruction |= hexaToInt(instruction);
 	}
 	else if (strcmp(operation, "JR") == 0) { // Instruction JR
 
@@ -407,7 +407,10 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 			instruction = strbreak(&instruction, '\n');
 			hexInstruction = instructionToHex(instruction);
 			printf("%s\t\t\t%s\n", instruction, hexInstruction);
-			jump = executeInstruction(instruction, memory, registers, PC);
+            jump = executeInstruction(instruction, memory, registers, PC);
+            
+            displayRegisters(registers);
+            displayMemory(memory);
 
 			//strcat(instruction, "\t\t\t");
 			//strcat(instruction, hexInstruction);
@@ -415,7 +418,6 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 
 			if (mode == PAS_A_PAS) {
 				printf("Appuyez sur ENTREE pour continuer...");
-				//scanf("%s");
                 getchar();
 			}
 
@@ -423,13 +425,17 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 				rewind(file);
 				PC = -1;
 			}
+            
+            if(PC == jump){
+                jump++;
+            }
 		}
 
 		PC++;
 	}
 
 	/* Fermeture du fichier */
-	//fclose(file);
+	fclose(file);
 }
 
 uint32_t executeInstruction(char* instruction, Memory memory, Registers registers, uint32_t PC) {
@@ -512,10 +518,10 @@ uint32_t executeInstruction(char* instruction, Memory memory, Registers register
         jump = hexaToInt(instruction);
 	}
 	else if (strcmp(operation, "JAL") == 0) { // Instruction JAL
-
+        
 	}
 	else if (strcmp(operation, "JR") == 0) { // Instruction JR
-
+        jump = getRegister(registers, instruction);
 	}
 	else if (strcmp(operation, "LUI") == 0) { // Instruction LUI
 		rt = strbreak(&instruction, ',');

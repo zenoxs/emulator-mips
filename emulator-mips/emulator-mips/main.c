@@ -58,11 +58,20 @@ int main(int argc, char * argv[]) {
 
 		break;
 	case 3: // Mode pas a pas
+            if(strcmp(argv[2], "-pas") == 0){
+                //Affichage instruction hexadecimale
+                readFile(argv[1], PAS_A_PAS, memory, registers);
+            }else{;
+                printf("Error wrong command !\n");
+                exit(EXIT_FAILURE);
+            }
 
-		//Affichage instruction hexadecimale
-		readFile(argv[1], PAS_A_PAS, memory, registers);
 
 		break;
+        default :
+            printf("Error wrong command !\n");
+            exit(EXIT_FAILURE);
+            break;
 	}
 
 	return 0;

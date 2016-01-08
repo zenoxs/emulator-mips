@@ -24,7 +24,7 @@
 
 char* getExecutablePath(char *nameFile);
 char* strbreak(char** s, char delimit);
-int saveFile(char* text, char* nameFile); // Sauvegarde le contenu d'une chaine de caractére dans un fichier
+int32_t saveFile(char* text, char* nameFile); // Sauvegarde le contenu d'une chaine de caractére dans un fichier
 void eraseFile(char* name);
 uint32_t hexaToInt(char* hexa);
 
