@@ -67,8 +67,9 @@ int8_t readMemory(Memory memory, uint32_t address) {
 	{
 		byte = byte->next;
 	}
+    
 
-	if (byte->address == address)
+	if ((byte != NULL) && (byte->address == address))
 		value = byte->value;
 	else
 		insert(memory, address, 0);

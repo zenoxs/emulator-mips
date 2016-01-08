@@ -376,7 +376,7 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 
 	FILE* file;
 	int PC = 0;
-	int jump = PC;
+	uint32_t jump = PC;
 	int nbLines = 0;
 	char* instruction = malloc(MAX_CHAR_INSTRUCTION * sizeof(char)); // Instruction
 	char* hexInstruction;
@@ -415,7 +415,8 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 
 			if (mode == PAS_A_PAS) {
 				printf("Appuyez sur ENTREE pour continuer...");
-				scanf("%s");
+				//scanf("%s");
+                getchar();
 			}
 
 			if (jump < PC) {
@@ -431,7 +432,7 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 	//fclose(file);
 }
 
-int executeInstruction(char* instruction, Memory memory, Registers registers, int PC) {
+uint32_t executeInstruction(char* instruction, Memory memory, Registers registers, uint32_t PC) {
 	char* operation;	// Opcode
 	char* rd;
 	char* rt;
@@ -440,7 +441,7 @@ int executeInstruction(char* instruction, Memory memory, Registers registers, in
 	int32_t rt_value;
 	int16_t immediate;
 	int16_t offset;
-	int jump = PC;
+	uint32_t jump = PC;
 
 	operation = strbreak(&instruction, ' '); // Recupere l'opcode
 
@@ -508,7 +509,7 @@ int executeInstruction(char* instruction, Memory memory, Registers registers, in
 		setRegister(registers, "$HI", rs_value % rt_value);
 	}
 	else if (strcmp(operation, "J") == 0) { // Instruction JUMP
-
+        jump = hexaToInt(instruction);
 	}
 	else if (strcmp(operation, "JAL") == 0) { // Instruction JAL
 

@@ -120,7 +120,7 @@ uint32_t registerToInt(char* name){
 		result = atoi(noRegister);
 	}
 
-	if ((result < 0) || (result > 33))
+	if (result > 33)
 		result = (uint32_t) NULL;
 
     return result;
