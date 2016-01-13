@@ -3,15 +3,17 @@
 
 /*******************************************************
 - fonction instructionToHex:
-Traduis une instruction MIPS en hexadecimal
+    Traduis une instruction MIPS en hexadecimal
 - parametre:
-instruction : instruction MIPS
+    > instruction : instruction MIPS
 - retour:
-instruction en hexadecimal
+    > instruction en hexadecimal
 *******************************************************/
 char* instructionToHex(char* instruction) {
 
 	char* hexInstruction = malloc(10 * sizeof(char));	// Instruction en hexadecimal
+    hexInstruction = NULL;
+    
 	uint32_t intInstruction = 0;						// Instruction en binaire
 	uint32_t intRegister = 0;							// Numero du registre
 	char* operation;									// Opcode
@@ -363,34 +365,45 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (2 * 5 + 6));
 
 	}
-	else
-		hexInstruction = NULL;
-
+    
 	if(hexInstruction != NULL)
-		sprintf(hexInstruction, "0x%08X", intInstruction);
+		sprintf(hexInstruction, "0x%08X", intInstruction); // Affichage de l'instruction traduite
 
 	return hexInstruction;
 }
 
+/*******************************************************
+ - fonction readFile:
+    Lit et éxecute un fichier d'instruction MIPS depuis 
+    un fichier.
+ - parametres:
+    > name : nom du fichier depuis le repertoire courant
+    de l'executable.
+    > mode : mode pas à pas ou mode non-interactif
+    (utilisation de la constante PAS_A_PAS).
+    > memory : memoire de l'emulateur.
+    > registers : registre de l'emulateur.
+ *******************************************************/
 void readFile(char* name, int mode, Memory memory, Registers registers) {
 
-	FILE* file;
-	int PC = 0;
-	uint32_t jump = PC;
-	int nbLines = 0;
+	FILE* file; // Fichier d'instruction
+	int PC = 0; // Program counter
+	uint32_t jump = PC; // Initialisation du jump
+	int nbLines = 0; // Nombre de ligne
 	char* instruction = malloc(MAX_CHAR_INSTRUCTION * sizeof(char)); // Instruction
-	char* hexInstruction;
+	char* hexInstruction; // Instruction en hexadecimal
 
 	name = getExecutablePath(name); // recupération du chemin du fichier
 
-									/* Ouverture du fichier */
+    /* Ouverture du fichier */
 	file = fopen(name, "r");
 
 	if (file == NULL) {
 		perror("Probleme ouverture fichier");
 		exit(1);
 	}
-
+    
+    /* Récuperation du nombre de ligne du fichier */
 	while (!feof(file)) {
 		fgets(instruction, MAX_CHAR_INSTRUCTION, file);
 		nbLines++;
@@ -402,7 +415,8 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 
 	while(PC < nbLines) {
 		fgets(instruction, MAX_CHAR_INSTRUCTION, file);
-
+        
+        /* Gestion du jump */
 		if (PC == jump) {
 			instruction = strbreak(&instruction, '\n');
 			hexInstruction = instructionToHex(instruction);
@@ -411,21 +425,20 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
             
             displayRegisters(registers);
             displayMemory(memory);
-
-			//strcat(instruction, "\t\t\t");
-			//strcat(instruction, hexInstruction);
-			//saveFile(instruction, "resultats_non_interactif.txt");
-
+            
+            /* Mode pas à pas */
 			if (mode == PAS_A_PAS) {
 				printf("Appuyez sur ENTREE pour continuer...");
                 getchar();
 			}
-
+            
+            /* Si le jump est inferieur au PC on reprend la lecture du fichier au début */
 			if (jump < PC) {
 				rewind(file);
 				PC = -1;
 			}
             
+            /* Si jump et PC correspondent on incrémente le jump */
             if(PC == jump){
                 jump++;
             }
@@ -438,6 +451,18 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 	fclose(file);
 }
 
+
+/*******************************************************
+ - fonction executeInstruction:
+    Traduis une instruction MIPS en hexadecimal
+ - parametre:
+    > instruction : instruction MIPS
+    > memory : memoire de l'emulateur
+    > registers : registre de l'emulateur
+    > pc : program counter de l'emulateur
+ - retour:
+    > retourne la valeur du jump/branch)
+ *******************************************************/
 uint32_t executeInstruction(char* instruction, Memory memory, Registers registers, uint32_t PC) {
 	char* operation;	// Opcode
 	char* rd;
