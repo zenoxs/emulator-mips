@@ -66,7 +66,7 @@ void insert(Memory memory, uint32_t address, int8_t value) {
 	// Si l'octet est existant à l'adresse specifiee
 	if ((next != NULL) && (address == next->address))
 		next->value = value; // Ecrasement de la valeur stockee
-	else { // Sinon on
+	else { // Sinon insertion de l'emplacement dans la liste
 		before->next = byte;
 		byte->next = next;
 	}
@@ -74,12 +74,11 @@ void insert(Memory memory, uint32_t address, int8_t value) {
 
 
 /*********************************************************
-- fonction insert:
-Insertion d'un emplacement memoire (byte)
+- fonction readMemory:
+	Lecture d'un octet en memoire
 - parametres:
-> memory: liste chainee ou memoire
-> address: adresse en memoire de l'octet
-> value: valeur de l'octet
+	> memory: liste chainee ou memoire
+	> address: adresse de l'octet a lire
 *********************************************************/
 int8_t readMemory(Memory memory, uint32_t address) {
 	int8_t value = 0;
@@ -90,49 +89,67 @@ int8_t readMemory(Memory memory, uint32_t address) {
 		exit(EXIT_FAILURE);
 	}
 
+	// Recherche de l'emplacement mémoire a l'adresse 'address'
 	while ((byte != NULL) && (address < byte->address))
 	{
 		byte = byte->next;
 	}
 
-
+	// Si l'existe
 	if ((byte != NULL) && (byte->address == address))
-		value = byte->value;
-	else
+		value = byte->value; // Lecture de l'octet
+	else // Sinon on insert un nouvel emplacement
 		insert(memory, address, 0);
 
 	return value;
 }
 
 
+/*********************************************************
+- fonction setMemory:
+	Enregistrement d'un octet en memoire
+- parametres:
+	> memory: liste chainee ou memoire
+	> address: adresse de l'octet a stocker
+	> value: valeur de l'octet
+*********************************************************/
 void setMemory(Memory memory, uint32_t address, int8_t value) {
 	if (memory == NULL)
 	{
 		exit(EXIT_FAILURE);
 	}
 
-	// Premier element
+	// Premier element (emplacement 0x0)
 	Byte* byte = memory;
 
+	// On cherche l'emplacement memoire a l'adresse 'address'
 	while ((byte != NULL) && (address < byte->address))
 	{
 		byte = byte->next;
 	}
 
+	// Si l'emplacement existe
 	if (byte->address == address)
-		byte->value = value;
-	else
+		byte->value = value; // Stockage de la valeur
+	else // Sinon on insert un nouvel emplacement
 		insert(memory, address, value);
 }
 
 
+/*********************************************************
+- fonction displayMemory:
+	Affichage de la memoire
+- parametre:
+	> memory: liste chainee ou memoire
+*********************************************************/
 void displayMemory(Memory memory) {
 	if (memory == NULL)
 	{
 		exit(EXIT_FAILURE);
 	}
 
-	// Premier element
+	/* Premier element de la liste triee 
+	(excepté l'emplacement a l'adresse 0x0)*/
 	Byte* byte = memory->next;
 
 	printf("Memory:\n\n");
@@ -143,12 +160,28 @@ void displayMemory(Memory memory) {
 	}
 }
 
+
+/*********************************************************
+- fonction loadWord:
+	Lecture d'un mot en memoire
+- parametres:
+	> memory: liste chainee ou memoire
+	> address: adresse du mot (4 octets) a lire
+*********************************************************/
 int32_t loadWord(Memory memory, uint32_t address) {
 	int32_t word = readMemory(memory, address) + (readMemory(memory, address + 1) << 8) + (readMemory(memory, address + 2) << 16) + (readMemory(memory, address + 3) << 24);
 	return word;
 }
 
 
+/*********************************************************
+- fonction storeWord:
+	Enregistrement d'un mot en memoire
+- parametres:
+	> memory: liste chainee ou memoire
+	> address: adresse du mot (4 octets) a stocker
+	> value: valeur du mot
+*********************************************************/
 void storeWord(Memory memory, uint32_t address, int32_t value) {
 	setMemory(memory, address, value & 0b11111111);
 	setMemory(memory, address + 1, (value & (0b11111111 << 8)) >> 8);
