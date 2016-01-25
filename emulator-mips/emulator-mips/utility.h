@@ -22,10 +22,19 @@
 #define NB_REGISTERS 34
 #define PAS_A_PAS 1
 
+// Recupere le chemin absolu d'un fichier
 char* getExecutablePath(char *nameFile);
+
+// Découpe une chaine de characteres en 2 a partir d'un delimiteur
 char* strbreak(char** s, char delimit);
-int32_t saveFile(char* text, char* nameFile); // Sauvegarde le contenu d'une chaine de caractére dans un fichier
+
+// Sauvegarde le contenu d'une chaine de caractére dans un fichier
+int32_t saveFile(char* text, char* nameFile);
+
+// Efface le contenu d'un fichier
 void eraseFile(char* name);
+
+// Convertit un nombre haxadecimal en entier decimal
 uint32_t hexaToInt(char* hexa);
 
 #endif /* utility_h */

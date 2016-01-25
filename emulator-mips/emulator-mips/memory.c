@@ -8,7 +8,14 @@
 
 #include "memory.h"
 
+/*********************************************************
+- fonction initMemory:
+Initialise la memoire
+- retour:
+> Memoire initialisee
+*********************************************************/
 Memory initMemory() {
+	// Allocation d'un octet (premier element de la liste)
 	Memory memory = malloc(sizeof(Byte));
 
 	if (memory == NULL)
@@ -16,6 +23,7 @@ Memory initMemory() {
 		exit(EXIT_FAILURE);
 	}
 
+	// Creation du premier element de la liste à l'adresse 0x0
 	memory->value = 0;
 	memory->next = NULL;
 	memory->address = 0;
@@ -24,17 +32,27 @@ Memory initMemory() {
 }
 
 
+/*********************************************************
+- fonction insert:
+Insertion d'un emplacement memoire (byte) en gardant
+la liste triee par adresses decroisantes
+- parametres:
+> memory: liste chainee ou memoire
+> address: adresse en memoire de l'octet
+> value: valeur de l'octet
+*********************************************************/
 void insert(Memory memory, uint32_t address, int8_t value) {
 	/* Création d'un nouvel emplacement memoire */
 	Byte* byte = malloc(sizeof(Byte));
-	Byte* before = memory;
-	Byte* next = memory->next;
+	Byte* before = memory; // byte precedent initialise au premier element
+	Byte* next = memory->next; // byte suivant
 
 	if (memory == NULL || byte == NULL)
 	{
 		exit(EXIT_FAILURE);
 	}
 
+	// Initialisation des attributs du nouveau byte
 	byte->value = value;
 	byte->address = address;
 
@@ -45,15 +63,24 @@ void insert(Memory memory, uint32_t address, int8_t value) {
 		next = next->next;
 	}
 
+	// Si l'octet est existant à l'adresse specifiee
 	if ((next != NULL) && (address == next->address))
-		next->value = value;
-	else {
+		next->value = value; // Ecrasement de la valeur stockee
+	else { // Sinon on
 		before->next = byte;
 		byte->next = next;
 	}
 }
 
 
+/*********************************************************
+- fonction insert:
+Insertion d'un emplacement memoire (byte)
+- parametres:
+> memory: liste chainee ou memoire
+> address: adresse en memoire de l'octet
+> value: valeur de l'octet
+*********************************************************/
 int8_t readMemory(Memory memory, uint32_t address) {
 	int8_t value = 0;
 	Byte* byte = memory->next; // Premier element
@@ -61,13 +88,13 @@ int8_t readMemory(Memory memory, uint32_t address) {
 	if (memory == NULL)
 	{
 		exit(EXIT_FAILURE);
-	}	
+	}
 
 	while ((byte != NULL) && (address < byte->address))
 	{
 		byte = byte->next;
 	}
-    
+
 
 	if ((byte != NULL) && (byte->address == address))
 		value = byte->value;

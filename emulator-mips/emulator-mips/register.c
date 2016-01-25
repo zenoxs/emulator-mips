@@ -8,11 +8,19 @@
 
 #include "register.h"
 
-uint32_t registerToInt(char* name){
-	uint32_t result = 0;
-	char* noRegister;
+/*********************************************************
+- fonction registerToInt:
+Convertit le nom d'un registre en son numero
+- parametres:
+> name: nom du registre sous la forme $name
+- retour:
+> numero du registre
+*********************************************************/
+uint32_t registerToInt(char* name) {
+	uint32_t result = 0; // numero du registre en decimal
+	char* noRegister; // numero du registre
 
-	noRegister = &name[1];
+	noRegister = &name[1]; // Supprime le charactere '$'
 
 	if (strcmp(noRegister, "zero") == 0) {
 		result = 0;
@@ -116,18 +124,25 @@ uint32_t registerToInt(char* name){
 	else if (strcmp(noRegister, "LO") == 0) {
 		result = 33;
 	}
-	else {
-		result = atoi(noRegister);
+	else { // Si le numero est specifie directement
+		result = atoi(noRegister); // Conversion ASCII en decimal
 	}
 
-	if (result > 33)
-		result = (uint32_t) NULL;
+	if (result > 33) // numero de registre inexistant
+		result = (uint32_t)NULL;
 
-    return result;
+	return result;
 }
 
 
+/*********************************************************
+- fonction initRegisters:
+Initialise tous les registres
+- retour:
+> tableau des registres initialisés
+*********************************************************/
 Registers initRegisters() {
+	// Allocation en memoire d'un tableau de NB_REGISTERS registres
 	Registers R = malloc(NB_REGISTERS * sizeof(Register));
 	int i;
 
@@ -174,6 +189,12 @@ Registers initRegisters() {
 }
 
 
+/*********************************************************
+- fonction displayRegisters:
+Affiche les registres
+- parametre:
+> R: tableau des registres
+*********************************************************/
 void displayRegisters(Registers R) {
 	int i;
 
@@ -185,11 +206,28 @@ void displayRegisters(Registers R) {
 }
 
 
+/*********************************************************
+- fonction setRegister:
+Enregistre une valeur dans un registre
+- parametres:
+> R: tableau des registres
+> name: nom du registre ($name)
+> value: valeur du registre
+*********************************************************/
 void setRegister(Registers R, char* name, int32_t value) {
 	R[registerToInt(name)].value = value;
 }
 
 
+/*********************************************************
+- fonction getRegister:
+Lit la valeur d'un registre
+- parametres:
+> R: tableau des registres
+> name: nom du registre sous la forme $name
+- retour:
+> valeur du registre
+*********************************************************/
 int32_t getRegister(Registers R, char* name) {
 	return R[registerToInt(name)].value;
 }
