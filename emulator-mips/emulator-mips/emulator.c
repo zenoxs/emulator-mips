@@ -12,7 +12,6 @@
 char* instructionToHex(char* instruction) {
 
 	char* hexInstruction = malloc(10 * sizeof(char));	// Instruction en hexadecimal
-    hexInstruction = NULL;
     
 	uint32_t intInstruction = 0;						// Instruction en binaire
 	uint32_t intRegister = 0;							// Numero du registre
@@ -365,6 +364,8 @@ char* instructionToHex(char* instruction) {
 		intInstruction |= (intRegister << (2 * 5 + 6));
 
 	}
+	else
+		hexInstruction = NULL;
     
 	if(hexInstruction != NULL)
 		sprintf(hexInstruction, "0x%08X", intInstruction); // Affichage de l'instruction traduite
@@ -400,6 +401,7 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 
 	if (file == NULL) {
 		perror("Probleme ouverture fichier");
+		saveFile("Probleme ouverture fichier", "resultats_non_interactif.txt");
 		exit(1);
 	}
     
@@ -411,7 +413,6 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 	nbLines--; // Décremente d'une ligne a cause de feof
 
 	rewind(file); // Reinitialise le curseur de la ligne dans le fichier
-	//eraseFile("resultats_non_interactif.txt"); // Efface le contenu du fichier
 
 	while(PC < nbLines) {
 		fgets(instruction, MAX_CHAR_INSTRUCTION, file);
@@ -420,11 +421,14 @@ void readFile(char* name, int mode, Memory memory, Registers registers) {
 		if (PC == jump) {
 			instruction = strbreak(&instruction, '\n');
 			hexInstruction = instructionToHex(instruction);
-			printf("%s\t\t\t%s\n", instruction, hexInstruction);
+			printf("%s\n%s\n", instruction, hexInstruction);
+			saveFile(instruction, "resultats_non_interactif.txt");
+			saveFile(hexInstruction, "resultats_non_interactif.txt");
+
             jump = executeInstruction(instruction, memory, registers, PC);
             
-            displayRegisters(registers);
-            displayMemory(memory);
+            displayRegisters(registers, "resultats_non_interactif.txt");
+            displayMemory(memory, "resultats_non_interactif.txt");
             
             /* Mode pas à pas */
 			if (mode == PAS_A_PAS) {

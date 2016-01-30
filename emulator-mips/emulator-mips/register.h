@@ -1,11 +1,3 @@
-//
-//  register.h
-//  emulator-mips
-//
-//  Created by Amaury CIVIER on 05/12/15.
-//  Copyright © 2015 Amaury CIVIER. All rights reserved.
-//
-
 #ifndef register_h
 #define register_h
 
@@ -24,7 +16,7 @@ typedef Register* Registers;
 Registers initRegisters();
 
 // Affiche les registres
-void displayRegisters(Registers R);
+void displayRegisters(Registers R, char* nameFile);
 
 // Enregistre une valeur dans un registre
 void setRegister(Registers R, char* name, int32_t value);

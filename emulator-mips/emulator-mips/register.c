@@ -1,11 +1,3 @@
-//
-//  register.c
-//  emulator-mips
-//
-//  Created by Amaury CIVIER on 05/12/15.
-//  Copyright © 2015 Amaury CIVIER. All rights reserved.
-//
-
 #include "register.h"
 
 /*********************************************************
@@ -194,14 +186,19 @@ Registers initRegisters() {
 Affiche les registres
 - parametre:
 > R: tableau des registres
+> nameFile: nom du fichier resultats
 *********************************************************/
-void displayRegisters(Registers R) {
+void displayRegisters(Registers R, char* nameFile) {
 	int i;
+	char str[30];
 
 	printf("Registers:\n\n");
+	saveFile("Registers:", nameFile);
 
 	for (i = 0; i < NB_REGISTERS; i++) {
 		printf("$%s\t$%i\t%i\n", R[i].name, i, R[i].value);
+		sprintf(str, "$%s   $%i   %i", R[i].name, i, R[i].value);
+		saveFile(str, nameFile);
 	}
 }
 
@@ -215,7 +212,8 @@ Enregistre une valeur dans un registre
 > value: valeur du registre
 *********************************************************/
 void setRegister(Registers R, char* name, int32_t value) {
-	R[registerToInt(name)].value = value;
+	if((strcmp(name, "$zero") != 0) || (strcmp(name, "$0") != 0))
+		R[registerToInt(name)].value = value;
 }
 
 

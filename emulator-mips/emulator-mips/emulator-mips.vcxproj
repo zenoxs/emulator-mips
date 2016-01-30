@@ -31,9 +31,6 @@
     <ClCompile Include="register.c" />
     <ClCompile Include="utility.c" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\Debug\prog.txt.txt" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D6A1BF5-311B-47D8-9BFE-5F7BA18EF5B5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

@@ -1,11 +1,3 @@
-//
-//  utility.c
-//  emulator-mips
-//
-//  Created by Amaury CIVIER on 14/12/15.
-//  Copyright © 2015 Amaury CIVIER. All rights reserved.
-//
-
 #include "utility.h"
 
 /*********************************************************

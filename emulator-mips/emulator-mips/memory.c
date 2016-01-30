@@ -1,11 +1,3 @@
-//
-//  memory.c
-//  emulator-mips
-//
-//  Created by Amaury CIVIER on 05/12/15.
-//  Copyright © 2015 Amaury CIVIER. All rights reserved.
-//
-
 #include "memory.h"
 
 /*********************************************************
@@ -141,8 +133,11 @@ void setMemory(Memory memory, uint32_t address, int8_t value) {
 	Affichage de la memoire
 - parametre:
 	> memory: liste chainee ou memoire
+	> nameFile: nom du fichier resultats
 *********************************************************/
-void displayMemory(Memory memory) {
+void displayMemory(Memory memory, char* nameFile) {
+	char str[30];
+
 	if (memory == NULL)
 	{
 		exit(EXIT_FAILURE);
@@ -153,9 +148,13 @@ void displayMemory(Memory memory) {
 	Byte* byte = memory->next;
 
 	printf("Memory:\n\n");
+	saveFile("Memory:", nameFile);
+
 	while (byte != NULL)
 	{
 		printf("address: 0x%08X\tvalue: %d\n", byte->address, byte->value);
+		sprintf(str, "address: 0x%08X   value: %d", byte->address, byte->value);
+		saveFile(str, nameFile);
 		byte = byte->next;
 	}
 }

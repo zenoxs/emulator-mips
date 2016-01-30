@@ -7,6 +7,7 @@ int main(int argc, char * argv[]) {
 
 	char* instruction = malloc(MAX_CHAR_INSTRUCTION * sizeof(char));
 	char* instructionHex;
+	char str[50];
 	Registers registers = initRegisters();
 	Memory memory = initMemory();
 
@@ -21,28 +22,27 @@ int main(int argc, char * argv[]) {
 		instruction = strbreak(&instruction, '\n');
 
 		while ((strcmp(instruction, "exit") != 0) && (strcmp(instruction, "EXIT") != 0)) {
+			strcpy(str, "emul-mips(interactif)>");
+			strcat(str, instruction);
+			saveFile(str, "resultats_interactif.txt");
+
 			// Traduction instruction en hexadecimal
 			instructionHex = instructionToHex(instruction);
 
 			if (instructionHex != NULL) {
 				// Affichage instruction hexadecimale
 				printf("%s\n", instructionHex);
-
-				// Sauvegarde des resultats
-				//strcat(instruction, " = ");
-				//strcat(instruction, instructionHex);
-				//saveFile(instruction, "resultats_interactif.txt");
-
-				// Enregistrement de l'instruction
-				saveFile(instruction, "prog_interactif.txt");
+				saveFile(instructionHex, "resultats_interactif.txt");
 
 				// Execution instruction
 				executeInstruction(instruction, memory, registers, 0);
-				displayRegisters(registers);
-				displayMemory(memory);
+				displayRegisters(registers, "resultats_interactif.txt");
+				displayMemory(memory, "resultats_interactif.txt");
 			}
-			else
+			else {
 				printf("Wrong instruction !\n");
+				saveFile("Wrong instruction !", "resultats_interactif.txt");
+			}
 
 			// Lecture instruction suivante
 			printf("emul-mips(interactif)>");
@@ -52,26 +52,30 @@ int main(int argc, char * argv[]) {
 
 		break;
 	case 2: // Mode non-interactif
+		// Suppression du contenu du fichier resultats
+		eraseFile("resultats_non_interactif.txt");
 
-		//Lecture du programme et affichage des instructions en hexa
+		// Lecture et execution du programme
 		readFile(argv[1], 0, memory, registers);
 
 		break;
 	case 3: // Mode pas a pas
-            if(strcmp(argv[2], "-pas") == 0){
-                //Affichage instruction hexadecimale
-                readFile(argv[1], PAS_A_PAS, memory, registers);
-            }else{;
-                printf("Error wrong command !\n");
-                exit(EXIT_FAILURE);
-            }
+		if(strcmp(argv[2], "-pas") == 0){
+			// Suppression du contenu du fichier resultats
+			eraseFile("resultats_non_interactif.txt");
 
-
-		break;
-        default :
-            printf("Error wrong command !\n");
+			// Lecture et execution du programme en mode pas a pas
+            readFile(argv[1], PAS_A_PAS, memory, registers);
+        }
+		else{
+			printf("Error wrong command !\n");
             exit(EXIT_FAILURE);
-            break;
+		}
+		break;
+	default :
+		printf("Error wrong command !\n");
+        exit(EXIT_FAILURE);
+        break;
 	}
 
 	return 0;
