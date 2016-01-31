@@ -212,7 +212,7 @@ Enregistre une valeur dans un registre
 > value: valeur du registre
 *********************************************************/
 void setRegister(Registers R, char* name, int32_t value) {
-	if((strcmp(name, "$zero") != 0) || (strcmp(name, "$0") != 0))
+	if((strcmp(name, "$zero") != 0) && (strcmp(name, "$0") != 0))
 		R[registerToInt(name)].value = value;
 }
 

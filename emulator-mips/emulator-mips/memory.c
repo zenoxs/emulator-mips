@@ -136,7 +136,7 @@ void setMemory(Memory memory, uint32_t address, int8_t value) {
 	> nameFile: nom du fichier resultats
 *********************************************************/
 void displayMemory(Memory memory, char* nameFile) {
-	char str[30];
+	char* str = malloc(40 * sizeof(char));
 
 	if (memory == NULL)
 	{
@@ -157,6 +157,7 @@ void displayMemory(Memory memory, char* nameFile) {
 		saveFile(str, nameFile);
 		byte = byte->next;
 	}
+	free(str);
 }
 
 
